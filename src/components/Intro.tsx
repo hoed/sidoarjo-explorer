@@ -1,0 +1,68 @@
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+
+function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const start = performance.now();
+    const dur = 1800;
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min((t - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.floor(to * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to]);
+  return <span ref={ref}>{n.toLocaleString()}{suffix}</span>;
+}
+
+const stats = [
+  { v: 62, s: "+", label: "Curated destinations" },
+  { v: 18, s: "", label: "Districts of wonder" },
+  { v: 2.3, s: "M", label: "Annual visitors" },
+  { v: 1350, s: "", label: "Years of heritage" },
+];
+
+export function Intro() {
+  return (
+    <section id="intro" className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_15%,transparent),transparent_60%)]" />
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
+            01 — Introduction
+          </motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }} className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
+            Where the delta<br />
+            <span className="italic text-gradient-cyan">meets the sky.</span>
+          </motion.h2>
+        </div>
+        <div className="md:col-span-6 md:col-start-7 md:pt-10">
+          <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
+            Badan Promosi Pariwisata Daerah Sidoarjo is the official custodian of one of East Java&apos;s most storied regions — a delta where ancient temples rise beside living mangroves, where batik is still hand-drawn on quiet river mornings, and where every meal is a coastline in a bowl.
+          </p>
+          <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+            We invite you to move slowly. To listen. To taste. To remember.
+          </p>
+
+          <div className="mt-14 grid grid-cols-2 gap-8 md:gap-12">
+            {stats.map((st, i) => (
+              <motion.div key={st.label} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <div className="text-5xl font-light text-gradient-gold md:text-6xl">
+                  <Counter to={st.v} suffix={st.s} />
+                </div>
+                <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">{st.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
