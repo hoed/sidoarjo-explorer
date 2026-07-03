@@ -85,8 +85,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "BPPD Sidoarjo — Discover the Hidden Wonders of the Delta" },
       { name: "twitter:description", content: "An immersive tourism experience by Badan Promosi Pariwisata Daerah Sidoarjo. Explore nature, heritage, culture, culinary and adventure in the heart of East Java." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/O2GPTOlO0LYzcbNCaH5oCJwF72r2/social-images/social-1783106120429-IMAGE-BANNER-1715674880.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/O2GPTOlO0LYzcbNCaH5oCJwF72r2/social-images/social-1783106120429-IMAGE-BANNER-1715674880.webp" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/O2GPTOlO0LYzcbNCaH5oCJwF72r2/social-images/social-1783106623306-6a1eee07-4560-46c1-8945-23248d889de5_removalai_preview.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/O2GPTOlO0LYzcbNCaH5oCJwF72r2/social-images/social-1783106623306-6a1eee07-4560-46c1-8945-23248d889de5_removalai_preview.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
