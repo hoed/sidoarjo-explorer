@@ -13,6 +13,7 @@ import { Culinary } from "@/components/Culinary";
 import { History } from "@/components/History";
 import { Nature } from "@/components/Nature";
 import { Events } from "@/components/Events";
+import { Gallery } from "@/components/Gallery";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { JourneyBackdrop } from "@/components/journey/JourneyBackdrop";
@@ -155,6 +156,10 @@ function Index() {
               </Suspense>
             }
           />
+        </div>
+
+        <div id="gallery">
+          <Gallery />
         </div>
 
         <Events />

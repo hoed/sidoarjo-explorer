@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useInView } from "@/hooks/useInView";
+
+const EventsScene = lazy(() => import("@/components/scenes/EventsScene"));
 
 const events = [
   { d: "22 AUG", t: "Nyadran Dawuhan", place: "Krembung", tag: "Ritual" },
@@ -35,10 +38,19 @@ function Countdown({ target }: { target: Date }) {
 }
 
 export function Events() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
   // Fixed anchor date so SSR and client agree; refreshed on the client after mount.
   const nextEvent = new Date("2026-09-15T09:00:00+07:00");
   return (
-    <section id="events" className="relative py-32 md:py-48">
+    <section id="events" ref={ref} className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
+        {inView && (
+          <Suspense fallback={null}>
+            <EventsScene />
+          </Suspense>
+        )}
+      </div>
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 max-w-3xl">
           <p className="text-[10px] uppercase tracking-[0.4em] text-primary">10 — Events</p>

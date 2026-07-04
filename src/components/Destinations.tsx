@@ -1,11 +1,14 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import type { MouseEvent } from "react";
+import { lazy, Suspense, useRef, type MouseEvent } from "react";
 import candi from "@/assets/candi-pari.jpg";
 import jaya from "@/assets/jayandaru.jpg";
 import batik from "@/assets/batik-jetis.jpg";
 import delta from "@/assets/delta-fishing.jpg";
 import museum from "@/assets/museum.jpg";
 import mangrove from "@/assets/mangrove.jpg";
+import { useInView } from "@/hooks/useInView";
+
+const DestinationsScene = lazy(() => import("@/components/scenes/DestinationsScene"));
 
 const items = [
   { img: candi, name: "Candi Pari", tag: "Heritage", desc: "A 14th-century Majapahit brick temple rising from rice fields.", loc: "Porong" },
@@ -63,8 +66,17 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
 }
 
 export function Destinations() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
   return (
-    <section id="destinations" className="relative py-32 md:py-48">
+    <section id="destinations" ref={ref} className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
+        {inView && (
+          <Suspense fallback={null}>
+            <DestinationsScene />
+          </Suspense>
+        )}
+      </div>
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>

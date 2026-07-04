@@ -1,10 +1,14 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 import mangrove from "@/assets/mangrove.jpg";
 import delta from "@/assets/delta-fishing.jpg";
+import { useInView } from "@/hooks/useInView";
+
+const NatureScene = lazy(() => import("@/components/scenes/NatureScene"));
 
 export function Nature() {
   const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y1 = useTransform(scrollYProgress, [0, 1], ["-10%", "20%"]);
   const y2 = useTransform(scrollYProgress, [0, 1], ["10%", "-15%"]);
@@ -16,6 +20,14 @@ export function Nature() {
         <img src={mangrove} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
       </motion.div>
+
+      <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen">
+        {inView && (
+          <Suspense fallback={null}>
+            <NatureScene />
+          </Suspense>
+        )}
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">

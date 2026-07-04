@@ -1,11 +1,24 @@
 import { motion } from "framer-motion";
+import { lazy, Suspense, useRef } from "react";
 import dance from "@/assets/culture-dance.jpg";
 import wayang from "@/assets/wayang.jpg";
 import batik from "@/assets/batik-jetis.jpg";
+import { useInView } from "@/hooks/useInView";
+
+const CultureScene = lazy(() => import("@/components/scenes/CultureScene"));
 
 export function Culture() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
   return (
-    <section id="culture" className="relative py-32 md:py-48">
+    <section id="culture" ref={ref} className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen">
+        {inView && (
+          <Suspense fallback={null}>
+            <CultureScene />
+          </Suspense>
+        )}
+      </div>
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">

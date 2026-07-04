@@ -1,4 +1,8 @@
 import { motion } from "framer-motion";
+import { lazy, Suspense, useRef } from "react";
+import { useInView } from "@/hooks/useInView";
+
+const HistoryScene = lazy(() => import("@/components/scenes/HistoryScene"));
 
 const timeline = [
   { year: "8th c.", title: "Kahuripan Kingdom", body: "The delta becomes a hub of the Airlangga era." },
@@ -10,8 +14,17 @@ const timeline = [
 ];
 
 export function History() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
   return (
-    <section id="history" className="relative py-32 md:py-48">
+    <section id="history" ref={ref} className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
+        {inView && (
+          <Suspense fallback={null}>
+            <HistoryScene />
+          </Suspense>
+        )}
+      </div>
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-20 max-w-3xl">
           <p className="text-[10px] uppercase tracking-[0.4em] text-primary">04 — History</p>
