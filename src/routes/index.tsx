@@ -149,11 +149,12 @@ function Index() {
                 district, or ask the AI guide for a route made for your day.
               </>
             }
-          >
-            <Suspense fallback={<div className="h-[80vh] rounded-3xl border border-white/10 bg-white/5" />}>
-              <MapChapterMount />
-            </Suspense>
-          </Chapter>
+            fullBleedChildren={
+              <Suspense fallback={<div className="h-[80vh] rounded-3xl border border-white/10 bg-white/5" />}>
+                <MapChapterMount />
+              </Suspense>
+            }
+          />
         </div>
 
         <Events />

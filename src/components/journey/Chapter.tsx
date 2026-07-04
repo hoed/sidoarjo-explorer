@@ -6,6 +6,13 @@ type Props = {
   title: ReactNode;
   body?: ReactNode;
   children?: ReactNode;
+  /**
+   * Content rendered full-bleed, outside the `max-w-6xl` text column —
+   * use this for anything that should span the full viewport width
+   * (e.g. the Leaflet map), since `children` is nested inside a
+   * width-constrained wrapper and can never exceed it, even with `w-full`.
+   */
+  fullBleedChildren?: ReactNode;
   align?: "left" | "center" | "right";
   id?: string;
 };
@@ -14,7 +21,7 @@ type Props = {
  * A single chapter of the journey. The heading rides a scroll-linked
  * fade/scale so scenes emerge and dissolve into each other without hard cuts.
  */
-export function Chapter({ eyebrow, title, body, children, align = "left", id }: Props) {
+export function Chapter({ eyebrow, title, body, children, fullBleedChildren, align = "left", id }: Props) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -37,6 +44,7 @@ export function Chapter({ eyebrow, title, body, children, align = "left", id }: 
         </motion.div>
         {children && <div className="mt-16 w-full">{children}</div>}
       </div>
+      {fullBleedChildren && <div className="mt-16 w-full">{fullBleedChildren}</div>}
     </section>
   );
 }
