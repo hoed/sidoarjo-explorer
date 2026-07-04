@@ -157,8 +157,31 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+@keyframes pulseGlow {
+  0% { transform: scale(1); opacity: 0.45; }
+  70% { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
 
 @utility animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
 @utility animate-aurora { animation: aurora 30s linear infinite; }
 @utility animate-reveal { animation: reveal-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @utility animate-marquee { animation: marquee 40s linear infinite; }
+
+/* Leaflet dark tweaks */
+.leaflet-container { font-family: inherit; background: #050914; }
+.leaflet-control-attribution {
+  background: rgba(0,0,0,0.4) !important;
+  color: rgba(255,255,255,0.5) !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(6px);
+}
+.leaflet-control-attribution a { color: rgba(255,255,255,0.7) !important; }
+.leaflet-control-zoom a {
+  background: rgba(15,20,35,0.8) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(8px);
+}
+.sd-marker { background: transparent !important; border: none !important; }
+
