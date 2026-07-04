@@ -47,10 +47,11 @@ ${catalog}`;
         const gateway = createLovableAiGatewayProvider(key);
         const model = gateway("google/gemini-3-flash-preview");
 
+        const modelMessages = await convertToModelMessages(messages);
         const result = streamText({
           model,
           system,
-          messages: convertToModelMessages(messages),
+          messages: modelMessages,
         });
 
         return result.toUIMessageStreamResponse({ originalMessages: messages });
