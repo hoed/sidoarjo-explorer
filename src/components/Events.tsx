@@ -9,8 +9,11 @@ const events = [
 ];
 
 function Countdown({ target }: { target: Date }) {
-  const [t, setT] = useState(() => target.getTime() - Date.now());
+  const [mounted, setMounted] = useState(false);
+  const [t, setT] = useState(0);
   useEffect(() => {
+    setMounted(true);
+    setT(target.getTime() - Date.now());
     const id = setInterval(() => setT(target.getTime() - Date.now()), 1000);
     return () => clearInterval(id);
   }, [target]);
@@ -18,7 +21,9 @@ function Countdown({ target }: { target: Date }) {
   const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
   const Cell = ({ n, l }: { n: number; l: string }) => (
     <div className="flex flex-col items-center">
-      <span className="tabular-nums text-4xl font-light text-gradient-cyan md:text-6xl">{String(n).padStart(2, "0")}</span>
+      <span suppressHydrationWarning className="tabular-nums text-4xl font-light text-gradient-cyan md:text-6xl">
+        {mounted ? String(n).padStart(2, "0") : "--"}
+      </span>
       <span className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{l}</span>
     </div>
   );
@@ -30,7 +35,8 @@ function Countdown({ target }: { target: Date }) {
 }
 
 export function Events() {
-  const nextEvent = new Date(Date.now() + 1000 * 60 * 60 * 24 * 42);
+  // Fixed anchor date so SSR and client agree; refreshed on the client after mount.
+  const nextEvent = new Date("2026-09-15T09:00:00+07:00");
   return (
     <section id="events" className="relative py-32 md:py-48">
       <div className="mx-auto max-w-7xl px-6">
