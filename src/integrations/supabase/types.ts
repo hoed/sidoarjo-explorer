@@ -14,16 +14,263 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          slug: string
+          sort: number
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          icon: string
+          id?: string
+          name: string
+          slug: string
+          sort?: number
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          slug?: string
+          sort?: number
+        }
+        Relationships: []
+      }
+      destination_facilities: {
+        Row: {
+          destination_id: string
+          facility: string
+          id: string
+        }
+        Insert: {
+          destination_id: string
+          facility: string
+          id?: string
+        }
+        Update: {
+          destination_id?: string
+          facility?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "destination_facilities_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      destination_gallery: {
+        Row: {
+          caption: string | null
+          destination_id: string
+          id: string
+          image_url: string
+          sort: number
+        }
+        Insert: {
+          caption?: string | null
+          destination_id: string
+          id?: string
+          image_url: string
+          sort?: number
+        }
+        Update: {
+          caption?: string | null
+          destination_id?: string
+          id?: string
+          image_url?: string
+          sort?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "destination_gallery_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      destinations: {
+        Row: {
+          category_id: string | null
+          chapter_order: number | null
+          created_at: string
+          description: string | null
+          district: string | null
+          duration_minutes: number | null
+          google_maps_url: string | null
+          hero_image: string | null
+          id: string
+          is_accessible: boolean | null
+          is_family_friendly: boolean | null
+          is_free: boolean | null
+          is_hidden_gem: boolean | null
+          is_new: boolean | null
+          is_night: boolean | null
+          is_popular: boolean | null
+          lat: number
+          lng: number
+          name: string
+          opening_hours: string | null
+          rating: number | null
+          short_desc: string | null
+          slug: string
+          tags: string[] | null
+          ticket_price: string | null
+          village: string | null
+          website: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          chapter_order?: number | null
+          created_at?: string
+          description?: string | null
+          district?: string | null
+          duration_minutes?: number | null
+          google_maps_url?: string | null
+          hero_image?: string | null
+          id?: string
+          is_accessible?: boolean | null
+          is_family_friendly?: boolean | null
+          is_free?: boolean | null
+          is_hidden_gem?: boolean | null
+          is_new?: boolean | null
+          is_night?: boolean | null
+          is_popular?: boolean | null
+          lat: number
+          lng: number
+          name: string
+          opening_hours?: string | null
+          rating?: number | null
+          short_desc?: string | null
+          slug: string
+          tags?: string[] | null
+          ticket_price?: string | null
+          village?: string | null
+          website?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          chapter_order?: number | null
+          created_at?: string
+          description?: string | null
+          district?: string | null
+          duration_minutes?: number | null
+          google_maps_url?: string | null
+          hero_image?: string | null
+          id?: string
+          is_accessible?: boolean | null
+          is_family_friendly?: boolean | null
+          is_free?: boolean | null
+          is_hidden_gem?: boolean | null
+          is_new?: boolean | null
+          is_night?: boolean | null
+          is_popular?: boolean | null
+          lat?: number
+          lng?: number
+          name?: string
+          opening_hours?: string | null
+          rating?: number | null
+          short_desc?: string | null
+          slug?: string
+          tags?: string[] | null
+          ticket_price?: string | null
+          village?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "destinations_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tourism_events: {
+        Row: {
+          description: string | null
+          destination_id: string | null
+          ends_at: string | null
+          id: string
+          image: string | null
+          name: string
+          starts_at: string
+        }
+        Insert: {
+          description?: string | null
+          destination_id?: string | null
+          ends_at?: string | null
+          id?: string
+          image?: string | null
+          name: string
+          starts_at: string
+        }
+        Update: {
+          description?: string | null
+          destination_id?: string | null
+          ends_at?: string | null
+          id?: string
+          image?: string | null
+          name?: string
+          starts_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tourism_events_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +397,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
