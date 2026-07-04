@@ -19,15 +19,40 @@ const flagFilters = [
   { key: "is_new", label: "New" },
 ] as const;
 
+// Icons are cached — same color+state always reuses the same L.DivIcon instead of
+// rebuilding HTML strings on every render (search typing, filter toggles, etc.).
+const iconCache = new Map<string, L.DivIcon>();
+
 function makeIcon(color: string, selected: boolean, dim: boolean) {
-  const size = selected ? 44 : 32;
-  const opacity = dim ? 0.35 : 1;
-  const html = `
-    <div style="position:relative;width:${size}px;height:${size}px;opacity:${opacity};">
-      <span style="position:absolute;inset:0;border-radius:9999px;background:${color};opacity:0.35;filter:blur(6px);animation:pulseGlow 2.2s ease-out infinite;"></span>
-      <span style="position:absolute;inset:6px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 2px rgba(255,255,255,0.35), 0 8px 20px -6px ${color};"></span>
-    </div>`;
-  return L.divIcon({ html, className: "sd-marker", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+  const state = selected ? "selected" : dim ? "dim" : "default";
+  const key = `${color}|${state}`;
+  const cached = iconCache.get(key);
+  if (cached) return cached;
+
+  let html: string;
+  let size: number;
+
+  if (selected) {
+    // Only the single selected marker gets the animated glow — cheap to run
+    // one blurred, animating element, expensive to run dozens at once.
+    size = 44;
+    html = `
+      <div style="position:relative;width:${size}px;height:${size}px;">
+        <span style="position:absolute;inset:0;border-radius:9999px;background:${color};opacity:0.4;filter:blur(6px);animation:pulseGlow 2.2s ease-out infinite;"></span>
+        <span style="position:absolute;inset:6px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 2px rgba(255,255,255,0.35), 0 8px 20px -6px ${color};"></span>
+      </div>`;
+  } else {
+    // Static dot with a plain box-shadow glow instead of a blurred, animated
+    // layer — visually similar at rest, far cheaper to paint and compose.
+    size = 32;
+    const opacity = dim ? 0.35 : 1;
+    html = `
+      <div style="width:${size}px;height:${size}px;opacity:${opacity};border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 2px rgba(255,255,255,0.25), 0 0 12px 2px ${color}66;"></div>`;
+  }
+
+  const icon = L.divIcon({ html, className: "sd-marker", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+  iconCache.set(key, icon);
+  return icon;
 }
 
 function FlyController({ target }: { target: [number, number] | null }) {
@@ -124,6 +149,28 @@ export function TourismMap({
   const totalMinutes =
     itineraryData.reduce((sum, d) => sum + (d.duration_minutes ?? 60), 0) + Math.round((totalDistance / 30) * 60);
 
+  const markerElements = useMemo(
+    () =>
+      filtered.map((d) => {
+        const isSel = d.slug === selected;
+        const isDim = !!selected && !isSel;
+        return (
+          <Marker
+            key={d.slug}
+            position={[d.lat, d.lng]}
+            icon={makeIcon(d.category_color ?? "#22d3ee", isSel, isDim)}
+            eventHandlers={{
+              click: () => {
+                setSelected(d.slug);
+                onFocus(d.slug);
+              },
+            }}
+          />
+        );
+      }),
+    [filtered, selected, onFocus],
+  );
+
   return (
     <div className="relative w-full">
       <div className="relative h-[80vh] w-full overflow-hidden rounded-3xl border border-white/10">
@@ -137,25 +184,12 @@ export function TourismMap({
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            detectRetina={false}
+            keepBuffer={2}
+            updateWhenZooming={false}
           />
           <FlyController target={target} />
-          {filtered.map((d) => {
-            const isSel = d.slug === selected;
-            const isDim = !!selected && !isSel;
-            return (
-              <Marker
-                key={d.slug}
-                position={[d.lat, d.lng]}
-                icon={makeIcon(d.category_color ?? "#22d3ee", isSel, isDim)}
-                eventHandlers={{
-                  click: () => {
-                    setSelected(d.slug);
-                    onFocus(d.slug);
-                  },
-                }}
-              />
-            );
-          })}
+          {markerElements}
         </MapContainer>
 
         {/* Search panel */}
