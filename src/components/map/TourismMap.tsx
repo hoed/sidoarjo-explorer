@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 import Fuse from "fuse.js";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,8 +20,7 @@ const flagFilters = [
   { key: "is_new", label: "New" },
 ] as const;
 
-// Icons are cached — same color+state always reuses the same L.DivIcon instead of
-// rebuilding HTML strings on every render (search typing, filter toggles, etc.).
+// Icons are cached — same color+state always reuses the same L.DivIcon.
 const iconCache = new Map<string, L.DivIcon>();
 
 function makeIcon(color: string, selected: boolean, dim: boolean) {
@@ -33,16 +33,12 @@ function makeIcon(color: string, selected: boolean, dim: boolean) {
   let size: number;
 
   if (selected) {
-    // Selected marker: static ring, no blur/animation (much cheaper to paint).
     size = 40;
-    html = `
-      <div style="width:${size}px;height:${size}px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 3px rgba(255,255,255,0.6), 0 0 0 6px ${color}55;"></div>`;
+    html = `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 3px rgba(255,255,255,0.7), 0 0 0 6px ${color}66, 0 0 18px ${color};"></div>`;
   } else {
-    // Plain dot with a soft color halo — no blur, no animation.
     size = 22;
-    const opacity = dim ? 0.35 : 1;
-    html = `
-      <div style="width:${size}px;height:${size}px;opacity:${opacity};border-radius:9999px;background:${color};box-shadow:0 0 0 2px rgba(255,255,255,0.6);"></div>`;
+    const opacity = dim ? 0.25 : 1;
+    html = `<div style="width:${size}px;height:${size}px;opacity:${opacity};border-radius:9999px;background:${color};box-shadow:0 0 0 2px rgba(255,255,255,0.6);"></div>`;
   }
 
   const icon = L.divIcon({ html, className: "sd-marker", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
@@ -50,11 +46,36 @@ function makeIcon(color: string, selected: boolean, dim: boolean) {
   return icon;
 }
 
-function FlyController({ target }: { target: [number, number] | null }) {
-  const map = useMap();
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
   useEffect(() => {
-    if (target) map.flyTo(target, 14, { duration: 1.1, easeLinearity: 0.4 });
-  }, [target, map]);
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setMobile(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return mobile;
+}
+
+function FlyController({ target, mobile }: { target: [number, number] | null; mobile: boolean }) {
+  const map = useMap();
+  const raf = useRef<number | null>(null);
+  useEffect(() => {
+    if (!target) return;
+    if (raf.current) cancelAnimationFrame(raf.current);
+    // Defer to next frame so a scroll-driven state change never fights the current paint.
+    raf.current = requestAnimationFrame(() => {
+      map.flyTo(target, mobile ? 13 : 14, {
+        duration: mobile ? 0.8 : 1.1,
+        easeLinearity: 0.4,
+        noMoveStart: true,
+      });
+    });
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+  }, [target, map, mobile]);
   return null;
 }
 
@@ -79,13 +100,17 @@ export function TourismMap({
   focusSlug: string | null;
   onFocus: (slug: string | null) => void;
 }) {
+  const mobile = useIsMobile();
   const [activeCats, setActiveCats] = useState<Set<string>>(new Set());
   const [activeFlags, setActiveFlags] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<string | null>(focusSlug);
+  const [hoverCat, setHoverCat] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<string[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
   const [showSuggest, setShowSuggest] = useState(false);
+  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
+  const markerRefs = useRef(new Map<string, L.Marker>());
 
   useEffect(() => {
     if (focusSlug) setSelected(focusSlug);
@@ -107,6 +132,74 @@ export function TourismMap({
       return true;
     });
   }, [destinations, activeCats, activeFlags]);
+
+  // Categories present in the filtered set → drives the scroll-synced legend.
+  const legend = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const d of filtered) if (d.category_slug) counts.set(d.category_slug, (counts.get(d.category_slug) ?? 0) + 1);
+    return categories
+      .filter((c) => counts.has(c.slug))
+      .map((c) => ({ ...c, count: counts.get(c.slug)! }));
+  }, [filtered, categories]);
+
+  // Which category should currently pop? Hover wins; otherwise derive from the focused destination.
+  const focusCat = useMemo(() => {
+    if (hoverCat) return hoverCat;
+    const s = focusSlug ?? selected;
+    if (!s) return null;
+    return destinations.find((d) => d.slug === s)?.category_slug ?? null;
+  }, [hoverCat, focusSlug, selected, destinations]);
+
+  // Expand the cluster containing the currently-focused marker.
+  useEffect(() => {
+    const cluster = clusterRef.current;
+    const slug = focusSlug ?? selected;
+    if (!cluster || !slug) return;
+    const marker = markerRefs.current.get(slug);
+    if (!marker) return;
+    const id = window.setTimeout(() => {
+      const parent = cluster.getVisibleParent(marker);
+      if (parent && parent !== marker && "spiderfy" in parent) {
+        (parent as any).spiderfy?.();
+      }
+    }, 260);
+    return () => window.clearTimeout(id);
+  }, [focusSlug, selected]);
+
+  // Cluster icon builder — colored by dominant category, highlighted when it holds the focus category.
+  const iconCreate = useMemo(() => {
+    return (cluster: L.MarkerCluster) => {
+      const children = cluster.getAllChildMarkers();
+      const catCounts = new Map<string, number>();
+      let match = 0;
+      children.forEach((m: any) => {
+        const cat = m.options?.destCat as string | undefined;
+        if (cat) catCounts.set(cat, (catCounts.get(cat) ?? 0) + 1);
+        if (focusCat && cat === focusCat) match++;
+      });
+      let dominant: string | undefined;
+      let best = 0;
+      catCounts.forEach((v, k) => {
+        if (v > best) {
+          best = v;
+          dominant = k;
+        }
+      });
+      const cat = categories.find((c) => c.slug === dominant);
+      const color = cat?.color ?? "#22d3ee";
+      const total = children.length;
+      const hasMatch = focusCat && match > 0;
+      const dim = focusCat && !hasMatch;
+      const size = total < 10 ? 40 : total < 30 ? 52 : 64;
+      const ring = hasMatch ? "0 0 0 3px rgba(255,255,255,0.9), 0 0 22px " + color : dim ? "none" : "0 0 0 2px rgba(255,255,255,0.35)";
+      const opacity = dim ? 0.35 : 1;
+      const html = `
+        <div style="width:${size}px;height:${size}px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, ${color}dd, ${color}55);display:flex;align-items:center;justify-content:center;color:#fff;font:600 12px/1 ui-sans-serif,system-ui;letter-spacing:.05em;box-shadow:${ring};opacity:${opacity};">
+          ${total}${hasMatch ? `<span style="position:absolute;bottom:-4px;right:-4px;background:#fff;color:${color};border-radius:9999px;font-size:9px;padding:1px 5px;">${match}</span>` : ""}
+        </div>`;
+      return L.divIcon({ html, className: "sd-cluster", iconSize: [size, size] });
+    };
+  }, [categories, focusCat]);
 
   const suggestions = query.trim() ? fuse.search(query).slice(0, 6).map((r) => r.item) : [];
   const selectedDest = destinations.find((d) => d.slug === selected) ?? null;
@@ -144,16 +237,43 @@ export function TourismMap({
   const totalMinutes =
     itineraryData.reduce((sum, d) => sum + (d.duration_minutes ?? 60), 0) + Math.round((totalDistance / 30) * 60);
 
+  // When hovering the legend, spiderfy every visible cluster that contains a matching marker.
+  useEffect(() => {
+    const cluster = clusterRef.current;
+    if (!cluster || !hoverCat) return;
+    const seen = new Set<any>();
+    filtered.forEach((d) => {
+      if (d.category_slug !== hoverCat) return;
+      const marker = markerRefs.current.get(d.slug);
+      if (!marker) return;
+      const parent = cluster.getVisibleParent(marker);
+      if (parent && parent !== marker && "spiderfy" in parent && !seen.has(parent)) {
+        seen.add(parent);
+        (parent as any).spiderfy?.();
+      }
+    });
+    return () => {
+      seen.forEach((p) => (p as any).unspiderfy?.());
+    };
+  }, [hoverCat, filtered]);
+
   const markerElements = useMemo(
     () =>
       filtered.map((d) => {
         const isSel = d.slug === selected;
-        const isDim = !!selected && !isSel;
+        const dimByCat = focusCat && d.category_slug !== focusCat && !isSel;
+        const isDim = !!(dimByCat || (selected && !isSel && !focusCat));
         return (
           <Marker
             key={d.slug}
             position={[d.lat, d.lng]}
             icon={makeIcon(d.category_color ?? "#22d3ee", isSel, isDim)}
+            // @ts-expect-error stash category on options for cluster icon builder
+            destCat={d.category_slug}
+            ref={(ref) => {
+              if (ref) markerRefs.current.set(d.slug, ref as unknown as L.Marker);
+              else markerRefs.current.delete(d.slug);
+            }}
             eventHandlers={{
               click: () => {
                 setSelected(d.slug);
@@ -163,7 +283,7 @@ export function TourismMap({
           />
         );
       }),
-    [filtered, selected, onFocus],
+    [filtered, selected, focusCat, onFocus],
   );
 
   return (
@@ -176,9 +296,9 @@ export function TourismMap({
           maxZoom={16}
           scrollWheelZoom
           preferCanvas
-          zoomAnimation={false}
+          zoomAnimation={!mobile}
           fadeAnimation={false}
-          markerZoomAnimation={false}
+          markerZoomAnimation={!mobile}
           className="h-full w-full"
           style={{ background: "#050914" }}
         >
@@ -186,12 +306,25 @@ export function TourismMap({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
             detectRetina={false}
-            keepBuffer={1}
+            keepBuffer={mobile ? 0 : 1}
             updateWhenIdle
             updateWhenZooming={false}
+            updateInterval={mobile ? 400 : 200}
           />
-          <FlyController target={target} />
-          {markerElements}
+          <FlyController target={target} mobile={mobile} />
+          <MarkerClusterGroup
+            ref={clusterRef as any}
+            chunkedLoading
+            removeOutsideVisibleBounds
+            animate={!mobile}
+            animateAddingMarkers={false}
+            spiderfyOnMaxZoom
+            showCoverageOnHover={false}
+            maxClusterRadius={mobile ? 60 : 48}
+            iconCreateFunction={iconCreate}
+          >
+            {markerElements}
+          </MarkerClusterGroup>
         </MapContainer>
 
         {/* Search panel */}
@@ -247,7 +380,7 @@ export function TourismMap({
             )}
           </AnimatePresence>
 
-          {/* Category chips */}
+          {/* Category filter chips */}
           <div className="mt-3 flex flex-wrap gap-1.5">
             {categories.map((c) => {
               const on = activeCats.has(c.slug);
@@ -285,6 +418,52 @@ export function TourismMap({
           </div>
         </div>
 
+        {/* Scroll-synced legend — hover to expand clusters, live count reflects filters */}
+        <div
+          className="absolute bottom-4 right-4 z-[500] w-[min(240px,calc(100%-2rem))]"
+          onMouseLeave={() => setHoverCat(null)}
+        >
+          <div className="glass-strong rounded-2xl border border-white/10 p-3">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-primary">Legend</span>
+              <span className="text-[10px] text-muted-foreground">{filtered.length} pts</span>
+            </div>
+            <ul className="space-y-1">
+              {legend.map((c) => {
+                const active = focusCat === c.slug;
+                return (
+                  <li key={c.slug}>
+                    <button
+                      onMouseEnter={() => !mobile && setHoverCat(c.slug)}
+                      onFocus={() => setHoverCat(c.slug)}
+                      onClick={() => {
+                        // Tap on mobile toggles the highlight.
+                        setHoverCat((h) => (h === c.slug ? null : c.slug));
+                      }}
+                      className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition ${
+                        active ? "bg-white/10" : "hover:bg-white/5"
+                      }`}
+                    >
+                      <span
+                        className="h-2.5 w-2.5 rounded-full transition"
+                        style={{
+                          background: c.color,
+                          boxShadow: active ? `0 0 0 3px ${c.color}55` : "none",
+                        }}
+                      />
+                      <span className="flex-1 truncate">{c.name}</span>
+                      <span className="text-[10px] text-muted-foreground">{c.count}</span>
+                    </button>
+                  </li>
+                );
+              })}
+              {legend.length === 0 && (
+                <li className="text-[11px] text-muted-foreground">No destinations match your filters.</li>
+              )}
+            </ul>
+          </div>
+        </div>
+
         {/* Detail card */}
         <AnimatePresence>
           {selectedDest && (
@@ -298,7 +477,7 @@ export function TourismMap({
               <div className="glass-strong overflow-hidden rounded-2xl border border-white/10">
                 {selectedDest.hero_image && (
                   <div className="relative h-40 overflow-hidden">
-                    <img src={selectedDest.hero_image} alt={selectedDest.name} className="h-full w-full object-cover" />
+                    <img src={selectedDest.hero_image} alt={selectedDest.name} className="h-full w-full object-cover" loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                     <button
                       onClick={() => {
@@ -411,7 +590,6 @@ export function TourismMap({
                 <button
                   key={days}
                   onClick={() => {
-                    // Naïve auto-plan: pick top popular, mix by category
                     const picks: string[] = [];
                     const byCat = new Map<string, DestinationDTO[]>();
                     for (const d of destinations) {
