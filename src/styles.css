@@ -168,8 +168,8 @@
 @utility animate-reveal { animation: reveal-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @utility animate-marquee { animation: marquee 40s linear infinite; }
 
-/* Leaflet dark tweaks */
-.leaflet-container { font-family: inherit; background: #050914; }
+/* Leaflet: dark floating controls over a light CARTO Positron basemap */
+.leaflet-container { font-family: inherit; background: #e9e7e0; }
 .leaflet-control-attribution {
   background: rgba(0,0,0,0.4) !important;
   color: rgba(255,255,255,0.5) !important;
