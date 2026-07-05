@@ -33,21 +33,16 @@ function makeIcon(color: string, selected: boolean, dim: boolean) {
   let size: number;
 
   if (selected) {
-    // Only the single selected marker gets the animated glow — cheap to run
-    // one blurred, animating element, expensive to run dozens at once.
-    size = 44;
+    // Selected marker: static ring, no blur/animation (much cheaper to paint).
+    size = 40;
     html = `
-      <div style="position:relative;width:${size}px;height:${size}px;">
-        <span style="position:absolute;inset:0;border-radius:9999px;background:${color};opacity:0.4;filter:blur(6px);animation:pulseGlow 2.2s ease-out infinite;"></span>
-        <span style="position:absolute;inset:6px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 2px rgba(255,255,255,0.35), 0 8px 20px -6px ${color};"></span>
-      </div>`;
+      <div style="width:${size}px;height:${size}px;border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 3px rgba(255,255,255,0.6), 0 0 0 6px ${color}55;"></div>`;
   } else {
-    // Static dot with a plain box-shadow glow instead of a blurred, animated
-    // layer — visually similar at rest, far cheaper to paint and compose.
-    size = 32;
+    // Plain dot with a soft color halo — no blur, no animation.
+    size = 22;
     const opacity = dim ? 0.35 : 1;
     html = `
-      <div style="width:${size}px;height:${size}px;opacity:${opacity};border-radius:9999px;background:radial-gradient(circle at 30% 30%, #fff, ${color});box-shadow:0 0 0 2px rgba(255,255,255,0.25), 0 0 12px 2px ${color}66;"></div>`;
+      <div style="width:${size}px;height:${size}px;opacity:${opacity};border-radius:9999px;background:${color};box-shadow:0 0 0 2px rgba(255,255,255,0.6);"></div>`;
   }
 
   const icon = L.divIcon({ html, className: "sd-marker", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
@@ -58,7 +53,7 @@ function makeIcon(color: string, selected: boolean, dim: boolean) {
 function FlyController({ target }: { target: [number, number] | null }) {
   const map = useMap();
   useEffect(() => {
-    if (target) map.flyTo(target, 15, { duration: 1.6, easeLinearity: 0.25 });
+    if (target) map.flyTo(target, 14, { duration: 1.1, easeLinearity: 0.4 });
   }, [target, map]);
   return null;
 }
@@ -177,15 +172,22 @@ export function TourismMap({
         <MapContainer
           center={SIDOARJO_CENTER}
           zoom={SIDOARJO_ZOOM}
+          minZoom={9}
+          maxZoom={16}
           scrollWheelZoom
+          preferCanvas
+          zoomAnimation={false}
+          fadeAnimation={false}
+          markerZoomAnimation={false}
           className="h-full w-full"
           style={{ background: "#050914" }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
             detectRetina={false}
-            keepBuffer={2}
+            keepBuffer={1}
+            updateWhenIdle
             updateWhenZooming={false}
           />
           <FlyController target={target} />
