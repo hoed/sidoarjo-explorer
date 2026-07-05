@@ -36,13 +36,13 @@ const categoriesQuery = queryOptions({
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BPPD Sidoarjo — A Cinematic Journey Across the Delta" },
+      { title: "BPPD Sidoarjo — Sidoarjo Tourism" },
       {
         name: "description",
         content:
           "Scroll through Sidoarjo as if you were travelling it — temples, mangroves, batik villages, warungs and festivals — with a live tourism map and an AI Tour Guide by BPPD Sidoarjo.",
       },
-      { property: "og:title", content: "BPPD Sidoarjo — A Cinematic Journey" },
+      { property: "og:title", content: "BPPD Sidoarjo — Sidoarjo Tourism" },
       {
         property: "og:description",
         content: "Heritage · Nature · Culture · Culinary · Adventure. An immersive tourism experience.",
