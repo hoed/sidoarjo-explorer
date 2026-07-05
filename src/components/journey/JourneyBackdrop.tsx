@@ -165,6 +165,8 @@ function ParticleField() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(scrollTimer);
     };
   }, []);
 
