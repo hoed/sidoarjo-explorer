@@ -381,41 +381,45 @@ export function TourismMap({
             )}
           </AnimatePresence>
 
-          {/* Category filter chips */}
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {categories.map((c) => {
-              const on = activeCats.has(c.slug);
-              return (
-                <button
-                  key={c.slug}
-                  onClick={() => toggleCat(c.slug)}
-                  className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
-                    on ? "border-transparent text-background" : "border-white/15 text-muted-foreground hover:border-white/40"
-                  }`}
-                  style={on ? { background: c.color } : undefined}
-                >
-                  {c.name}
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {flagFilters.map((f) => {
-              const on = activeFlags.has(f.key);
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => toggleFlag(f.key)}
-                  className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
-                    on
-                      ? "border-primary bg-primary/20 text-primary"
-                      : "border-white/10 text-muted-foreground hover:border-white/30"
-                  }`}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
+          {/* Category + mood filter chips — wrapped in a solid glass card so the
+              light-toned text stays legible over any basemap color, instead of
+              floating bare on top of the map tiles. */}
+          <div className="glass-strong mt-3 rounded-2xl border border-white/10 p-3">
+            <div className="flex flex-wrap gap-1.5">
+              {categories.map((c) => {
+                const on = activeCats.has(c.slug);
+                return (
+                  <button
+                    key={c.slug}
+                    onClick={() => toggleCat(c.slug)}
+                    className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
+                      on ? "border-transparent text-background" : "border-white/15 text-muted-foreground hover:border-white/40"
+                    }`}
+                    style={on ? { background: c.color } : undefined}
+                  >
+                    {c.name}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {flagFilters.map((f) => {
+                const on = activeFlags.has(f.key);
+                return (
+                  <button
+                    key={f.key}
+                    onClick={() => toggleFlag(f.key)}
+                    className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
+                      on
+                        ? "border-primary bg-primary/20 text-primary"
+                        : "border-white/10 text-muted-foreground hover:border-white/30"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
