@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Cursor } from "@/components/Cursor";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
@@ -20,6 +20,7 @@ import { JourneyBackdrop } from "@/components/journey/JourneyBackdrop";
 import { ChapterRail } from "@/components/journey/ChapterRail";
 import { Chapter } from "@/components/journey/Chapter";
 import { MapChapter } from "@/components/journey/MapChapter";
+import { FoodFestivalsChapter } from "@/components/journey/FoodFestivalsChapter";
 import { listDestinations, listCategories } from "@/lib/destinations.functions";
 import heroImg from "@/assets/hero-sidoarjo.jpg";
 
@@ -134,29 +135,9 @@ function Index() {
           <Culinary />
         </div>
 
-        {/* Map — the interactive command center */}
-        <div id="map">
-          <Chapter
-            eyebrow="Chapter VII — Command Center"
-            title={
-              <>
-                Chart your own<br />
-                <span className="italic text-gradient-cyan">delta.</span>
-              </>
-            }
-            body={
-              <>
-                Every marker is a chapter waiting to be written. Filter by mood, search by
-                district, or ask the AI guide for a route made for your day.
-              </>
-            }
-            fullBleedChildren={
-              <Suspense fallback={<div className="h-[80vh] rounded-3xl border border-white/10 bg-white/5" />}>
-                <MapChapterMount />
-              </Suspense>
-            }
-          />
-        </div>
+        {/* Map — the interactive command center, plus the Food & Festivals
+            chapter that steers it as the user scrolls. */}
+        <MapAndFoodFestivals />
 
         <div id="gallery">
           <Gallery />
@@ -173,8 +154,43 @@ function Index() {
   );
 }
 
-function MapChapterMount() {
+function MapAndFoodFestivals() {
   const { data: destinations } = useSuspenseQuery(destinationsQuery);
   const { data: categories } = useSuspenseQuery(categoriesQuery);
-  return <MapChapter destinations={destinations} categories={categories} />;
+  const [focus, setFocus] = useState<string | null>(null);
+
+  return (
+    <>
+      <div id="food-festivals-wrap">
+        <FoodFestivalsChapter destinations={destinations} onFocusSlug={setFocus} />
+      </div>
+      <div id="map">
+        <Chapter
+          eyebrow="Chapter VII — Command Center"
+          title={
+            <>
+              Chart your own<br />
+              <span className="italic text-gradient-cyan">delta.</span>
+            </>
+          }
+          body={
+            <>
+              Every marker is a chapter waiting to be written. Filter by mood, search by
+              district, or ask the AI guide for a route made for your day.
+            </>
+          }
+          fullBleedChildren={
+            <Suspense fallback={<div className="h-[80vh] rounded-3xl border border-white/10 bg-white/5" />}>
+              <MapChapter
+                destinations={destinations}
+                categories={categories}
+                focus={focus}
+                onFocus={setFocus}
+              />
+            </Suspense>
+          }
+        />
+      </div>
+    </>
+  );
 }

@@ -15,12 +15,15 @@ const TourGuide = lazy(() =>
 export function MapChapter({
   destinations,
   categories,
+  focus,
+  onFocus,
 }: {
   destinations: DestinationDTO[];
   categories: CategoryDTO[];
+  focus: string | null;
+  onFocus: (slug: string | null) => void;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [focus, setFocus] = useState<string | null>(null);
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
@@ -36,9 +39,9 @@ export function MapChapter({
         destinations={destinations}
         categories={categories}
         focusSlug={focus}
-        onFocus={setFocus}
+        onFocus={onFocus}
       />
-      <TourGuide destinations={destinations} onFocusSlug={setFocus} />
+      <TourGuide destinations={destinations} onFocusSlug={onFocus} />
     </Suspense>
   );
 }
