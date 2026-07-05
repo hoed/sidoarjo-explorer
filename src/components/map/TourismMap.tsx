@@ -172,15 +172,22 @@ export function TourismMap({
         <MapContainer
           center={SIDOARJO_CENTER}
           zoom={SIDOARJO_ZOOM}
+          minZoom={9}
+          maxZoom={16}
           scrollWheelZoom
+          preferCanvas
+          zoomAnimation={false}
+          fadeAnimation={false}
+          markerZoomAnimation={false}
           className="h-full w-full"
           style={{ background: "#050914" }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
             detectRetina={false}
-            keepBuffer={2}
+            keepBuffer={1}
+            updateWhenIdle
             updateWhenZooming={false}
           />
           <FlyController target={target} />
