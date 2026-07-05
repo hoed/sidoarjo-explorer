@@ -7,6 +7,7 @@ const stops = [
   { id: "culture", label: "Culture" },
   { id: "history", label: "History" },
   { id: "culinary", label: "Table" },
+  { id: "food-festivals", label: "Festivals" },
   { id: "map", label: "Map" },
   { id: "invitation", label: "Invitation" },
 ];
