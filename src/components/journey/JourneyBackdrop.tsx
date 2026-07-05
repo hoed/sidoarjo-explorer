@@ -113,7 +113,8 @@ function ParticleField() {
     resize();
     window.addEventListener("resize", resize);
 
-    const count = window.innerWidth < 640 ? 45 : 90;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const count = isMobile ? 18 : window.innerWidth < 1024 ? 45 : 80;
     const particles = Array.from({ length: count }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -123,7 +124,26 @@ function ParticleField() {
       a: Math.random() * 0.6 + 0.2,
     }));
 
-    const tick = () => {
+    // Throttle to 30fps on mobile — enough for drift, half the paint cost.
+    const minFrame = isMobile ? 33 : 0;
+    let last = 0;
+    // Pause drawing while the user is actively scrolling fast; resume shortly after.
+    let scrollBusy = false;
+    let scrollTimer = 0;
+    const onScroll = () => {
+      scrollBusy = true;
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        scrollBusy = false;
+      }, 120);
+    };
+    if (isMobile) window.addEventListener("scroll", onScroll, { passive: true });
+
+    const tick = (t: number) => {
+      raf = requestAnimationFrame(tick);
+      if (scrollBusy) return;
+      if (minFrame && t - last < minFrame) return;
+      last = t;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of particles) {
         p.x += p.vx;
@@ -139,13 +159,14 @@ function ParticleField() {
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
       }
-      raf = requestAnimationFrame(tick);
     };
-    tick();
+    tick(0);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(scrollTimer);
     };
   }, []);
 
