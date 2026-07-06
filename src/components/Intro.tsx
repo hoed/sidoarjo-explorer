@@ -34,11 +34,11 @@ export function Intro() {
     <section id="intro" className="relative py-32 md:py-48">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_15%,transparent),transparent_60%)]" />
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-12">
-        <div className="md:col-span-5">
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
+        <div className="md:col-span-5" style={{ perspective: 1200 }}>
+          <motion.p initial={{ opacity: 0, y: 20, rotateX: -20 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
             01 — Introduction
           </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }} className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
+          <motion.h2 initial={{ opacity: 0, y: 30, rotateX: -24 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
             Where the delta<br />
             <span className="italic text-gradient-cyan">meets the sky.</span>
           </motion.h2>
@@ -51,9 +51,9 @@ export function Intro() {
             We invite you to move slowly. To listen. To taste. To remember.
           </p>
 
-          <div className="mt-14 grid grid-cols-2 gap-8 md:gap-12">
+          <div className="mt-14 grid grid-cols-2 gap-8 md:gap-12" style={{ perspective: 1200 }}>
             {stats.map((st, i) => (
-              <motion.div key={st.label} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+              <motion.div key={st.label} initial={{ opacity: 0, y: 30, rotateX: -22 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}>
                 <div className="text-5xl font-light text-gradient-gold md:text-6xl">
                   <Counter to={st.v} suffix={st.s} />
                 </div>

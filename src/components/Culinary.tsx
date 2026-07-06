@@ -27,19 +27,26 @@ export function Culinary() {
         )}
       </div>
       <div className="relative mx-auto max-w-7xl px-6">
-        <div className="mb-16 max-w-3xl">
+        <motion.div
+          style={{ perspective: 1200 }}
+          initial={{ opacity: 0, y: 50, rotateX: -22 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16 max-w-3xl"
+        >
           <p className="text-[10px] uppercase tracking-[0.4em] text-accent">06 — Culinary</p>
           <h2 className="mt-6 text-5xl font-light md:text-7xl">The coastline<br /><span className="italic text-gradient-gold">in a bowl.</span></h2>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div style={{ perspective: 1200 }} className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {dishes.map((d, i) => (
             <motion.article
               key={d.name}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 60, rotateX: -24 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.9, delay: i * 0.12 }}
+              transition={{ duration: 1.1, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="group relative"
             >
               <div className="relative aspect-square overflow-hidden rounded-full glass-strong">

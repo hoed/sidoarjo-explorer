@@ -52,28 +52,37 @@ export function Events() {
         )}
       </div>
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 max-w-3xl">
+        <motion.div
+          style={{ perspective: 1200 }}
+          initial={{ opacity: 0, y: 50, rotateX: -22 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16 max-w-3xl"
+        >
           <p className="text-[10px] uppercase tracking-[0.4em] text-primary">10 — Events</p>
           <h2 className="mt-6 text-5xl font-light md:text-7xl">Time your<br /><span className="italic text-gradient-cyan">journey.</span></h2>
-        </div>
-
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="mb-14 flex flex-col items-start justify-between gap-8 rounded-3xl glass-strong p-8 md:flex-row md:items-center md:p-12">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-accent">Next flagship event</p>
-            <h3 className="mt-2 text-3xl font-light md:text-5xl">Festival Bandeng Sidoarjo</h3>
-            <p className="mt-2 text-muted-foreground">Alun-alun • 15 September</p>
-          </div>
-          <Countdown target={nextEvent} />
         </motion.div>
 
-        <ul className="divide-y divide-white/10 border-y border-white/10">
+        <div style={{ perspective: 1400 }}>
+          <motion.div initial={{ opacity: 0, y: 40, rotateX: -18 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }} className="mb-14 flex flex-col items-start justify-between gap-8 rounded-3xl glass-strong p-8 md:flex-row md:items-center md:p-12">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-accent">Next flagship event</p>
+              <h3 className="mt-2 text-3xl font-light md:text-5xl">Festival Bandeng Sidoarjo</h3>
+              <p className="mt-2 text-muted-foreground">Alun-alun • 15 September</p>
+            </div>
+            <Countdown target={nextEvent} />
+          </motion.div>
+        </div>
+
+        <ul style={{ perspective: 1400 }} className="divide-y divide-white/10 border-y border-white/10">
           {events.map((e, i) => (
             <motion.li
               key={e.t}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -30, rotateY: 20 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
+              transition={{ duration: 0.9, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               data-magnetic
               className="group grid grid-cols-12 items-center gap-4 py-8 transition-colors hover:bg-white/[0.03]"
             >

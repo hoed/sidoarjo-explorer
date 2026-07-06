@@ -31,32 +31,57 @@ export function Nature() {
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-accent">03 — Nature</p>
-            <h2 className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">Water is our<br /><span className="italic text-gradient-gold">first language.</span></h2>
-            <p className="mt-8 max-w-md text-lg text-muted-foreground">
+          <div className="md:col-span-5" style={{ perspective: 1200 }}>
+            <motion.p initial={{ opacity: 0, y: 30, rotateX: -22 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-accent">
+              03 — Nature
+            </motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 40, rotateX: -26 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
+              Water is our<br /><span className="italic text-gradient-gold">first language.</span>
+            </motion.h2>
+            <motion.p initial={{ opacity: 0, y: 30, rotateX: -18 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mt-8 max-w-md text-lg text-muted-foreground">
               Two rivers, one delta, eighty kilometres of coastline. Sidoarjo breathes in tides — and gives back mangroves, egrets, and the quiet architecture of fish ponds stretching to the horizon.
-            </p>
+            </motion.p>
             <ul className="mt-10 space-y-4 text-sm">
               {[
                 ["Tlocor Mangrove", "Migratory bird sanctuary"],
                 ["Ketingan Delta", "Sunset paddleboarding"],
                 ["Kalanganyar Ponds", "Traditional aquaculture"],
                 ["Segoro Tambak", "Wetland restoration"],
-              ].map(([n, d]) => (
-                <li key={n} className="flex items-baseline justify-between border-b border-white/10 pb-3">
+              ].map(([n, d], i) => (
+                <motion.li
+                  key={n}
+                  initial={{ opacity: 0, y: 24, rotateX: -20 }}
+                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.8, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex items-baseline justify-between border-b border-white/10 pb-3"
+                >
                   <span className="text-base">{n}</span>
                   <span className="text-xs uppercase tracking-widest text-muted-foreground">{d}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
-          <div className="relative md:col-span-6 md:col-start-7">
-            <motion.div style={{ y: y1 }} className="relative overflow-hidden rounded-2xl">
+          <div className="relative md:col-span-6 md:col-start-7" style={{ perspective: 1400 }}>
+            <motion.div
+              style={{ y: y1 }}
+              initial={{ opacity: 0, rotateY: -22 }}
+              whileInView={{ opacity: 1, rotateY: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative overflow-hidden rounded-2xl"
+            >
               <img src={mangrove} alt="Sidoarjo mangrove at sunrise" loading="lazy" className="aspect-[4/5] w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
             </motion.div>
-            <motion.div style={{ y: y2 }} className="absolute -bottom-10 -left-6 hidden w-2/3 overflow-hidden rounded-2xl glass-strong md:block">
+            <motion.div
+              style={{ y: y2 }}
+              initial={{ opacity: 0, rotateY: 22 }}
+              whileInView={{ opacity: 1, rotateY: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute -bottom-10 -left-6 hidden w-2/3 overflow-hidden rounded-2xl glass-strong md:block"
+            >
               <img src={delta} alt="Delta fishing at sunset" loading="lazy" className="aspect-video w-full object-cover" />
             </motion.div>
           </div>

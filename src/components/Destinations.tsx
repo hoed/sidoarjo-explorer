@@ -33,18 +33,19 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
   const onLeave = () => { rx.set(0); ry.set(0); };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, delay: (index % 3) * 0.1 }}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      data-magnetic
-      style={{ perspective: 1200 }}
-      className="group relative"
-    >
-      <motion.div style={{ rotateX: tY, rotateY: tX, transformStyle: "preserve-3d" }} className="relative aspect-[4/5] overflow-hidden rounded-2xl glass">
+    <div style={{ perspective: 1200 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 60, rotateX: -20 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1.1, delay: (index % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        data-magnetic
+        style={{ transformStyle: "preserve-3d" }}
+        className="group relative"
+      >
+        <motion.div style={{ rotateX: tY, rotateY: tX, transformStyle: "preserve-3d" }} className="relative aspect-[4/5] overflow-hidden rounded-2xl glass">
         <img src={item.img} alt={item.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 text-[10px] uppercase tracking-[0.28em]">
@@ -61,7 +62,8 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
           </div>
         </div>
       </motion.div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -78,12 +80,25 @@ export function Destinations() {
         )}
       </div>
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div>
+        <div style={{ perspective: 1200 }} className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 50, rotateX: -22 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          >
             <p className="text-[10px] uppercase tracking-[0.4em] text-primary">02 — Destinations</p>
             <h2 className="mt-6 text-5xl font-light md:text-7xl">Eight ways to<br /><span className="italic text-gradient-cyan">fall in love.</span></h2>
-          </div>
-          <p className="max-w-md text-muted-foreground">Curated by locals. Ancient and new. Each one is a chapter in Sidoarjo&apos;s story.</p>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 50, rotateX: -22 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-md text-muted-foreground"
+          >
+            Curated by locals. Ancient and new. Each one is a chapter in Sidoarjo&apos;s story.
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

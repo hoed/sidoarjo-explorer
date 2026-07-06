@@ -36,18 +36,25 @@ export function Gallery() {
         )}
       </div>
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 max-w-3xl">
+        <motion.div
+          style={{ perspective: 1200 }}
+          initial={{ opacity: 0, y: 50, rotateX: -22 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16 max-w-3xl"
+        >
           <p className="text-[10px] uppercase tracking-[0.4em] text-accent">08 — Gallery</p>
           <h2 className="mt-6 text-5xl font-light md:text-7xl">Postcards from<br /><span className="italic text-gradient-gold">the delta.</span></h2>
-        </div>
-        <div className="grid auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-4">
+        </motion.div>
+        <div style={{ perspective: 1400 }} className="grid auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-4">
           {imgs.map((im, i) => (
             <motion.figure
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, rotateX: -20, rotateY: i % 2 ? 14 : -14 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0, rotateY: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: (i % 4) * 0.08 }}
+              transition={{ duration: 1, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className={`group relative overflow-hidden rounded-xl ${im.h}`}
             >
               <img src={im.src} alt={im.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />

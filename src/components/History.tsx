@@ -26,21 +26,28 @@ export function History() {
         )}
       </div>
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-20 max-w-3xl">
+        <motion.div
+          style={{ perspective: 1200 }}
+          initial={{ opacity: 0, y: 50, rotateX: -22 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-20 max-w-3xl"
+        >
           <p className="text-[10px] uppercase tracking-[0.4em] text-primary">04 — History</p>
           <h2 className="mt-6 text-5xl font-light md:text-7xl">A thousand years,<br /><span className="italic text-gradient-cyan">one horizon.</span></h2>
-        </div>
+        </motion.div>
 
-        <div className="relative">
+        <div className="relative" style={{ perspective: 1400 }}>
           <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent md:block" />
           <div className="grid gap-16">
             {timeline.map((t, i) => (
               <motion.div
                 key={t.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, rotateY: i % 2 ? -20 : 20 }}
+                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.9 }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 className={`relative grid grid-cols-1 items-center gap-6 md:grid-cols-2 ${i % 2 ? "md:[direction:rtl]" : ""}`}
               >
                 <div className="[direction:ltr] md:pr-12">
