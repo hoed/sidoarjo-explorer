@@ -4,6 +4,7 @@ import mangrove from "@/assets/mangrove.jpg";
 import delta from "@/assets/delta-fishing.jpg";
 import { useInView } from "@/hooks/useInView";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText, ClipReveal, BlurWords } from "@/components/motion/Kinetic";
 
 const NatureScene = lazy(() => import("@/components/scenes/NatureScene"));
 
