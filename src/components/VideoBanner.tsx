@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import hero from "@/assets/hero-sidoarjo.jpg";
+import { SplitText, ClipReveal } from "@/components/motion/Kinetic";
 
 export function VideoBanner() {
   const ref = useRef<HTMLElement>(null);
