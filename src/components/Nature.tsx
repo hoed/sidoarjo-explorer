@@ -70,26 +70,19 @@ export function Nature() {
             </ul>
           </div>
           <div className="relative md:col-span-6 md:col-start-7" style={{ perspective: 1400 }}>
-            <motion.div
-              style={{ y: y1 }}
-              initial={{ opacity: 0, rotateY: -22 }}
-              whileInView={{ opacity: 1, rotateY: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl"
-            >
-              <img src={mangrove} alt="Sidoarjo mangrove at sunrise" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+            <motion.div style={{ y: y1 }}>
+              <ClipReveal from="up" duration={1.6} className="rounded-2xl">
+                <img src={mangrove} alt="Sidoarjo mangrove at sunrise" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </ClipReveal>
             </motion.div>
             <motion.div
               style={{ y: y2 }}
-              initial={{ opacity: 0, rotateY: 22 }}
-              whileInView={{ opacity: 1, rotateY: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute -bottom-10 -left-6 hidden w-2/3 overflow-hidden rounded-2xl glass-strong md:block"
+              className="absolute -bottom-10 -left-6 hidden w-2/3 md:block"
             >
-              <img src={delta} alt="Delta fishing at sunset" loading="lazy" className="aspect-video w-full object-cover" />
+              <ClipReveal from="left" delay={0.2} duration={1.4} className="rounded-2xl glass-strong">
+                <img src={delta} alt="Delta fishing at sunset" loading="lazy" className="aspect-video w-full object-cover" />
+              </ClipReveal>
             </motion.div>
           </div>
         </div>
