@@ -5,6 +5,7 @@ import wayang from "@/assets/wayang.jpg";
 import batik from "@/assets/batik-jetis.jpg";
 import { useInView } from "@/hooks/useInView";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText, ClipReveal, BlurWords } from "@/components/motion/Kinetic";
 
 const CultureScene = lazy(() => import("@/components/scenes/CultureScene"));
 
