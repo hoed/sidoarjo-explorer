@@ -39,7 +39,10 @@ export function Culinary() {
           className="mb-16 max-w-3xl"
         >
           <p className="text-[10px] uppercase tracking-[0.4em] text-accent">06 — Culinary</p>
-          <h2 className="mt-6 text-5xl font-light md:text-7xl">The coastline<br /><span className="italic text-gradient-gold">in a bowl.</span></h2>
+          <h2 className="mt-6 text-5xl font-light md:text-7xl">
+            <SplitText text="The coastline" as="span" className="block" />
+            <SplitText text="in a bowl." as="span" className="block italic text-gradient-gold" delay={0.15} />
+          </h2>
         </motion.div>
 
         <div style={{ perspective: 1200 }} className="grid grid-cols-1 gap-8 md:grid-cols-3">
