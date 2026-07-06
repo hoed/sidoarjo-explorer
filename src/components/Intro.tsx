@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText, BlurWords } from "@/components/motion/Kinetic";
 
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
