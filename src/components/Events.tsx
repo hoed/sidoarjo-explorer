@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText } from "@/components/motion/Kinetic";
 
 const EventsScene = lazy(() => import("@/components/scenes/EventsScene"));
 
