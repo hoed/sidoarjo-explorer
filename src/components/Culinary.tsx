@@ -5,6 +5,7 @@ import bandeng from "@/assets/bandeng.jpg";
 import otak from "@/assets/otak-otak.jpg";
 import { useInView } from "@/hooks/useInView";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText, ClipReveal } from "@/components/motion/Kinetic";
 
 const CulinaryScene = lazy(() => import("@/components/scenes/CulinaryScene"));
 
