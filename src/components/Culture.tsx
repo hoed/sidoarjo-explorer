@@ -32,17 +32,14 @@ export function Culture() {
             className="max-w-2xl"
           >
             <p className="text-[10px] uppercase tracking-[0.4em] text-accent">05 — Culture</p>
-            <h2 className="mt-6 text-5xl font-light md:text-7xl">Rituals that<br /><span className="italic text-gradient-gold">refuse to sleep.</span></h2>
+            <h2 className="mt-6 text-5xl font-light md:text-7xl">
+              <SplitText text="Rituals that" as="span" className="block" />
+              <SplitText text="refuse to sleep." as="span" className="block italic text-gradient-gold" delay={0.15} />
+            </h2>
           </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 50, rotateX: -22 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-sm text-muted-foreground"
-          >
-            Wayang shadows, Reog fire, gamelan bronze — Sidoarjo carries East Java on its shoulders.
-          </motion.p>
+          <p className="max-w-sm text-muted-foreground">
+            <BlurWords text="Wayang shadows, Reog fire, gamelan bronze — Sidoarjo carries East Java on its shoulders." />
+          </p>
         </div>
 
         <div style={{ perspective: 1400 }} className="grid grid-cols-1 gap-6 md:grid-cols-12">
