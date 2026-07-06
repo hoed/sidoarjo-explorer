@@ -64,7 +64,10 @@ export function Events() {
           className="mb-16 max-w-3xl"
         >
           <p className="text-[10px] uppercase tracking-[0.4em] text-primary">10 — Events</p>
-          <h2 className="mt-6 text-5xl font-light md:text-7xl">Time your<br /><span className="italic text-gradient-cyan">journey.</span></h2>
+          <h2 className="mt-6 text-5xl font-light md:text-7xl">
+            <SplitText text="Time your" as="span" className="block" />
+            <SplitText text="journey." as="span" className="block italic text-gradient-cyan" delay={0.15} />
+          </h2>
         </motion.div>
 
         <div style={{ perspective: 1400 }}>
