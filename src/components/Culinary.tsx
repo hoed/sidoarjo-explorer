@@ -5,6 +5,7 @@ import bandeng from "@/assets/bandeng.jpg";
 import otak from "@/assets/otak-otak.jpg";
 import { useInView } from "@/hooks/useInView";
 import { useSectionTilt } from "@/hooks/useSectionTilt";
+import { SplitText, ClipReveal } from "@/components/motion/Kinetic";
 
 const CulinaryScene = lazy(() => import("@/components/scenes/CulinaryScene"));
 
@@ -38,7 +39,10 @@ export function Culinary() {
           className="mb-16 max-w-3xl"
         >
           <p className="text-[10px] uppercase tracking-[0.4em] text-accent">06 — Culinary</p>
-          <h2 className="mt-6 text-5xl font-light md:text-7xl">The coastline<br /><span className="italic text-gradient-gold">in a bowl.</span></h2>
+          <h2 className="mt-6 text-5xl font-light md:text-7xl">
+            <SplitText text="The coastline" as="span" className="block" />
+            <SplitText text="in a bowl." as="span" className="block italic text-gradient-gold" delay={0.15} />
+          </h2>
         </motion.div>
 
         <div style={{ perspective: 1200 }} className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -51,10 +55,10 @@ export function Culinary() {
               transition={{ duration: 1.1, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="group relative"
             >
-              <div className="relative aspect-square overflow-hidden rounded-full glass-strong">
+              <ClipReveal from="up" duration={1.4} delay={i * 0.1} className="aspect-square rounded-full glass-strong">
                 <img src={d.img} alt={d.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" />
-                <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/10 transition-all group-hover:ring-accent/60" />
-              </div>
+                <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/10 transition-all group-hover:ring-accent/60" />
+              </ClipReveal>
               <div className="mt-6 text-center">
                 <div className="text-[10px] uppercase tracking-[0.3em] text-accent">{d.accent}</div>
                 <h3 className="mt-2 text-2xl font-light">{d.name}</h3>
