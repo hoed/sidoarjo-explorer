@@ -1,12 +1,20 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 export function CTA() {
+  const ref = useRef<HTMLElement>(null);
+  const { rotateX, y, opacity } = useSectionTilt(ref);
   return (
-    <section id="cta" className="relative overflow-hidden py-32 md:py-48">
+    <section id="cta" ref={ref} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1800 }}>
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--gradient-aurora)] opacity-30 blur-3xl animate-aurora" />
       </div>
-      <div className="relative mx-auto max-w-4xl px-6 text-center" style={{ perspective: 1200 }}>
+      <motion.div
+        style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }}
+        className="relative mx-auto max-w-4xl px-6 text-center"
+      >
+        <div style={{ perspective: 1200 }}>
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
           11 — Your Turn
         </motion.p>
@@ -31,7 +39,8 @@ export function CTA() {
             Talk to a local guide
           </a>
         </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

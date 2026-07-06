@@ -3,6 +3,7 @@ import { lazy, Suspense, useRef } from "react";
 import mangrove from "@/assets/mangrove.jpg";
 import delta from "@/assets/delta-fishing.jpg";
 import { useInView } from "@/hooks/useInView";
+import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const NatureScene = lazy(() => import("@/components/scenes/NatureScene"));
 
@@ -13,9 +14,10 @@ export function Nature() {
   const y1 = useTransform(scrollYProgress, [0, 1], ["-10%", "20%"]);
   const y2 = useTransform(scrollYProgress, [0, 1], ["10%", "-15%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
+  const tilt = useSectionTilt(ref);
 
   return (
-    <section id="nature" ref={ref} className="relative overflow-hidden py-32 md:py-48">
+    <section id="nature" ref={ref} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1600 }}>
       <motion.div style={{ scale }} className="pointer-events-none absolute inset-0">
         <img src={mangrove} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
@@ -29,7 +31,10 @@ export function Nature() {
         )}
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <motion.div
+        style={{ rotateX: tilt.rotateX, y: tilt.y, opacity: tilt.opacity, transformStyle: "preserve-3d" }}
+        className="relative mx-auto max-w-7xl px-6"
+      >
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-5" style={{ perspective: 1200 }}>
             <motion.p initial={{ opacity: 0, y: 30, rotateX: -22 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-accent">
@@ -86,7 +91,7 @@ export function Nature() {
             </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

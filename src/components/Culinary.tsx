@@ -4,6 +4,7 @@ import lontong from "@/assets/lontong-kupang.jpg";
 import bandeng from "@/assets/bandeng.jpg";
 import otak from "@/assets/otak-otak.jpg";
 import { useInView } from "@/hooks/useInView";
+import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const CulinaryScene = lazy(() => import("@/components/scenes/CulinaryScene"));
 
@@ -16,8 +17,9 @@ const dishes = [
 export function Culinary() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
+  const { rotateX, y, opacity } = useSectionTilt(ref);
   return (
-    <section id="culinary" ref={ref} className="relative py-32 md:py-48">
+    <section id="culinary" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--accent)_15%,transparent),transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen">
         {inView && (
@@ -26,7 +28,7 @@ export function Culinary() {
           </Suspense>
         )}
       </div>
-      <div className="relative mx-auto max-w-7xl px-6">
+      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}
           initial={{ opacity: 0, y: 50, rotateX: -22 }}
@@ -75,7 +77,7 @@ export function Culinary() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

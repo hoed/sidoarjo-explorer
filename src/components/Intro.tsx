@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -30,10 +31,12 @@ const stats = [
 ];
 
 export function Intro() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { rotateX, y, opacity } = useSectionTilt(sectionRef);
   return (
-    <section id="intro" className="relative py-32 md:py-48">
+    <section id="intro" ref={sectionRef} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_15%,transparent),transparent_60%)]" />
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-12">
+      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-12">
         <div className="md:col-span-5" style={{ perspective: 1200 }}>
           <motion.p initial={{ opacity: 0, y: 20, rotateX: -20 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
             01 — Introduction
@@ -62,7 +65,7 @@ export function Intro() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

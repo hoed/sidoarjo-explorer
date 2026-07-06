@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { lazy, Suspense, useRef } from "react";
 import { useInView } from "@/hooks/useInView";
+import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const HistoryScene = lazy(() => import("@/components/scenes/HistoryScene"));
 
@@ -16,8 +17,9 @@ const timeline = [
 export function History() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
+  const { rotateX, y, opacity } = useSectionTilt(ref);
   return (
-    <section id="history" ref={ref} className="relative py-32 md:py-48">
+    <section id="history" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
         {inView && (
           <Suspense fallback={null}>
@@ -25,7 +27,7 @@ export function History() {
           </Suspense>
         )}
       </div>
-      <div className="mx-auto max-w-7xl px-6">
+      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}
           initial={{ opacity: 0, y: 50, rotateX: -22 }}
@@ -62,7 +64,7 @@ export function History() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
