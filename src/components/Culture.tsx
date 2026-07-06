@@ -70,7 +70,7 @@ export function Culture() {
               <h3 className="text-2xl font-light">Batik Jetis</h3>
               <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">Hand-drawn since 1859</p>
             </div>
-          </motion.div>
+          </ClipReveal>
         </div>
       </motion.div>
     </section>
