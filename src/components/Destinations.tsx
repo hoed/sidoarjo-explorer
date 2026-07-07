@@ -7,7 +7,6 @@ import delta from "@/assets/delta-fishing.jpg";
 import museum from "@/assets/museum.jpg";
 import mangrove from "@/assets/mangrove.jpg";
 import { useInView } from "@/hooks/useInView";
-import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const DestinationsScene = lazy(() => import("@/components/scenes/DestinationsScene"));
 
@@ -71,7 +70,6 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
 export function Destinations() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
-  const { rotateX, y, opacity } = useSectionTilt(ref);
   return (
     <section id="destinations" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
@@ -81,7 +79,7 @@ export function Destinations() {
           </Suspense>
         )}
       </div>
-      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <div style={{ perspective: 1200 }} className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <motion.div
             initial={{ opacity: 0, y: 50, rotateX: -22 }}

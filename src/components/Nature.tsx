@@ -3,7 +3,6 @@ import { lazy, Suspense, useRef } from "react";
 import mangrove from "@/assets/mangrove.jpg";
 import delta from "@/assets/delta-fishing.jpg";
 import { useInView } from "@/hooks/useInView";
-import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const NatureScene = lazy(() => import("@/components/scenes/NatureScene"));
 
@@ -14,7 +13,6 @@ export function Nature() {
   const y1 = useTransform(scrollYProgress, [0, 1], ["-10%", "20%"]);
   const y2 = useTransform(scrollYProgress, [0, 1], ["10%", "-15%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
-  const tilt = useSectionTilt(ref);
 
   return (
     <section id="nature" ref={ref} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1600 }}>
@@ -32,7 +30,7 @@ export function Nature() {
       </div>
 
       <motion.div
-        style={{ rotateX: tilt.rotateX, y: tilt.y, opacity: tilt.opacity, transformStyle: "preserve-3d" }}
+        style={{ transformStyle: "preserve-3d" }}
         className="relative mx-auto max-w-7xl px-6"
       >
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">

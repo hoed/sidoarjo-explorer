@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { Suspense, useState } from "react";
 import { Cursor } from "@/components/Cursor";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import { ScrollStack } from "@/components/ScrollStack";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Intro } from "@/components/Intro";
@@ -67,104 +67,63 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return (
-    <main className="relative">
-      <SmoothScroll />
-      <Cursor />
-      <ScrollProgress />
-      <JourneyBackdrop />
-      <ChapterRail />
-      <Nav />
-
-      <div className="relative z-10">
-        <div id="hero">
-          <Hero />
-        </div>
-        <Intro />
-
-        {/* Heritage chapter: temples & landmarks */}
-        <div id="heritage">
-          <Chapter
-            eyebrow="Chapter I — Heritage"
-            title={
-              <>
-                Where the delta<br />
-                <span className="italic text-gradient-cyan">remembers.</span>
-              </>
-            }
-            body={
-              <>
-                A thousand years ago, the Airlangga kings raised Kahuripan on this soil.
-                Six centuries later, Majapahit laid the red bricks of Candi Pari. Every
-                stone still speaks — you only need to arrive.
-              </>
-            }
-          >
-            <Destinations />
-          </Chapter>
-        </div>
-
-        {/* Nature chapter */}
-        <div id="nature">
-          <Chapter
-            eyebrow="Chapter II — Nature"
-            title={
-              <>
-                A green<br />
-                <span className="italic text-gradient-cyan">seawall.</span>
-              </>
-            }
-            align="right"
-          >
-            <Nature />
-          </Chapter>
-        </div>
-
-        {/* Culture */}
-        <div id="culture">
-          <Culture />
-        </div>
-
-        {/* History timeline */}
-        <div id="history">
-          <History />
-        </div>
-
-        {/* Culinary */}
-        <div id="culinary">
-          <Culinary />
-        </div>
-
-        {/* Map — the interactive command center, plus the Food & Festivals
-            chapter that steers it as the user scrolls. */}
-        <MapAndFoodFestivals />
-
-        <div id="gallery">
-          <Gallery />
-        </div>
-
-        <Events />
-
-        <div id="invitation">
-          <CTA />
-        </div>
-        <Footer />
-      </div>
-    </main>
-  );
-}
-
-function MapAndFoodFestivals() {
   const { data: destinations } = useSuspenseQuery(destinationsQuery);
   const { data: categories } = useSuspenseQuery(categoriesQuery);
   const [focus, setFocus] = useState<string | null>(null);
 
-  return (
-    <>
-      <div id="food-festivals-wrap">
-        <FoodFestivalsChapter destinations={destinations} onFocusSlug={setFocus} />
-      </div>
-      <div id="map">
+  const slides = [
+    { id: "hero", content: <Hero /> },
+    { id: "intro", content: <Intro /> },
+    {
+      id: "heritage",
+      content: (
+        <Chapter
+          eyebrow="Chapter I — Heritage"
+          title={
+            <>
+              Where the delta<br />
+              <span className="italic text-gradient-cyan">remembers.</span>
+            </>
+          }
+          body={
+            <>
+              A thousand years ago, the Airlangga kings raised Kahuripan on this soil.
+              Six centuries later, Majapahit laid the red bricks of Candi Pari. Every
+              stone still speaks — you only need to arrive.
+            </>
+          }
+        >
+          <Destinations />
+        </Chapter>
+      ),
+    },
+    {
+      id: "nature",
+      content: (
+        <Chapter
+          eyebrow="Chapter II — Nature"
+          title={
+            <>
+              A green<br />
+              <span className="italic text-gradient-cyan">seawall.</span>
+            </>
+          }
+          align="right"
+        >
+          <Nature />
+        </Chapter>
+      ),
+    },
+    { id: "culture", content: <Culture /> },
+    { id: "history", content: <History /> },
+    { id: "culinary", content: <Culinary /> },
+    {
+      id: "food-festivals",
+      content: <FoodFestivalsChapter destinations={destinations} onFocusSlug={setFocus} />,
+    },
+    {
+      id: "map",
+      content: (
         <Chapter
           eyebrow="Chapter VII — Command Center"
           title={
@@ -190,7 +149,30 @@ function MapAndFoodFestivals() {
             </Suspense>
           }
         />
-      </div>
-    </>
+      ),
+    },
+    { id: "gallery", content: <Gallery /> },
+    { id: "events", content: <Events /> },
+    {
+      id: "invitation",
+      content: (
+        <>
+          <CTA />
+          <Footer />
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <main className="relative">
+      <ScrollStack slides={slides}>
+        <Cursor />
+        <ScrollProgress />
+        <JourneyBackdrop />
+        <ChapterRail />
+        <Nav />
+      </ScrollStack>
+    </main>
   );
 }

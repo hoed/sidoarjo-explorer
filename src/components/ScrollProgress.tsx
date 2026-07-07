@@ -1,7 +1,8 @@
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useSpring } from "framer-motion";
+import { useScrollStack } from "@/lib/scroll-stack-context";
 
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const { progress: scrollYProgress } = useScrollStack();
   const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 24, mass: 0.4 });
   return (
     <motion.div

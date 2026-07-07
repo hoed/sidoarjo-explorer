@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
-import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const EventsScene = lazy(() => import("@/components/scenes/EventsScene"));
 
@@ -41,7 +40,6 @@ function Countdown({ target }: { target: Date }) {
 export function Events() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
-  const { rotateX, y, opacity } = useSectionTilt(ref);
   // Fixed anchor date so SSR and client agree; refreshed on the client after mount.
   const nextEvent = new Date("2026-09-15T09:00:00+07:00");
   return (
@@ -53,7 +51,7 @@ export function Events() {
           </Suspense>
         )}
       </div>
-      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}
           initial={{ opacity: 0, y: 50, rotateX: -22 }}

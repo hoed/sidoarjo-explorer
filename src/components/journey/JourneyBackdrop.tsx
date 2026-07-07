@@ -1,13 +1,14 @@
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useTransform, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useScrollStack } from "@/lib/scroll-stack-context";
 
 /**
  * A fixed, sticky background that morphs its color, fog, and light rays as the
- * user scrolls the whole page. Combined with a persistent drifting particle field,
+ * user moves between slides. Combined with a persistent drifting particle field,
  * it makes every section feel like part of one continuous journey.
  */
 export function JourneyBackdrop() {
-  const { scrollYProgress } = useScroll();
+  const { progress: scrollYProgress } = useScrollStack();
   const reduce = useReducedMotion();
 
   // Cinematic palette per chapter (0 dawn → 1 night invitation)

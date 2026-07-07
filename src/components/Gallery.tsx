@@ -9,7 +9,6 @@ import mangrove from "@/assets/mangrove.jpg";
 import dance from "@/assets/culture-dance.jpg";
 import wayang from "@/assets/wayang.jpg";
 import { useInView } from "@/hooks/useInView";
-import { useSectionTilt } from "@/hooks/useSectionTilt";
 
 const GalleryScene = lazy(() => import("@/components/scenes/GalleryScene"));
 
@@ -27,7 +26,6 @@ const imgs = [
 export function Gallery() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref);
-  const { rotateX, y, opacity } = useSectionTilt(ref);
   return (
     <section id="gallery" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
@@ -37,7 +35,7 @@ export function Gallery() {
           </Suspense>
         )}
       </div>
-      <motion.div style={{ rotateX, y, opacity, transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}
           initial={{ opacity: 0, y: 50, rotateX: -22 }}
