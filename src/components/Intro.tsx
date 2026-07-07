@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { SplitText, BlurWords } from "@/components/motion/Kinetic";
 
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -39,17 +40,17 @@ export function Intro() {
           <motion.p initial={{ opacity: 0, y: 20, rotateX: -20 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
             01 — Introduction
           </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 30, rotateX: -24 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
-            Where the delta<br />
-            <span className="italic text-gradient-cyan">meets the sky.</span>
-          </motion.h2>
+          <h2 className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
+            <SplitText text="Where the delta" as="span" className="block" />
+            <SplitText text="meets the sky." as="span" className="block italic text-gradient-cyan" delay={0.15} />
+          </h2>
         </div>
         <div className="md:col-span-6 md:col-start-7 md:pt-10">
           <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Badan Promosi Pariwisata Daerah Sidoarjo is the official custodian of one of East Java&apos;s most storied regions — a delta where ancient temples rise beside living mangroves, where batik is still hand-drawn on quiet river mornings, and where every meal is a coastline in a bowl.
+            <BlurWords text="Badan Promosi Pariwisata Daerah Sidoarjo is the official custodian of one of East Java's most storied regions — a delta where ancient temples rise beside living mangroves, where batik is still hand-drawn on quiet river mornings, and where every meal is a coastline in a bowl." />
           </p>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-            We invite you to move slowly. To listen. To taste. To remember.
+            <BlurWords text="We invite you to move slowly. To listen. To taste. To remember." delay={0.2} />
           </p>
 
           <div className="mt-14 grid grid-cols-2 gap-8 md:gap-12" style={{ perspective: 1200 }}>
