@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { lazy, Suspense, useRef } from "react";
+import { useRef } from "react";
 import candi from "@/assets/candi-pari.jpg";
 import jaya from "@/assets/jayandaru.jpg";
 import batik from "@/assets/batik-jetis.jpg";
@@ -8,10 +8,6 @@ import museum from "@/assets/museum.jpg";
 import mangrove from "@/assets/mangrove.jpg";
 import dance from "@/assets/culture-dance.jpg";
 import wayang from "@/assets/wayang.jpg";
-import { useInView } from "@/hooks/useInView";
-import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
-
-const GalleryScene = lazy(() => import("@/components/scenes/GalleryScene"));
 
 const imgs = [
   { src: mangrove, h: "row-span-2", alt: "Mangrove" },
@@ -26,18 +22,8 @@ const imgs = [
 
 export function Gallery() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref);
   return (
     <section id="gallery" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
-        {inView && (
-          <SceneErrorBoundary>
-            <Suspense fallback={null}>
-            <GalleryScene />
-          </Suspense>
-          </SceneErrorBoundary>
-        )}
-      </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}

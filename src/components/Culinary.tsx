@@ -1,13 +1,9 @@
 import { motion } from "framer-motion";
-import { lazy, Suspense, useRef } from "react";
+import { useRef } from "react";
 import lontong from "@/assets/lontong-kupang.jpg";
 import bandeng from "@/assets/bandeng.jpg";
 import otak from "@/assets/otak-otak.jpg";
-import { useInView } from "@/hooks/useInView";
-import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 import { SplitText, ClipReveal } from "@/components/motion/Kinetic";
-
-const CulinaryScene = lazy(() => import("@/components/scenes/CulinaryScene"));
 
 const dishes = [
   { img: lontong, name: "Lontong Kupang", note: "Tiny clams, rice cake, coconut broth", accent: "Signature" },
@@ -17,19 +13,9 @@ const dishes = [
 
 export function Culinary() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref);
   return (
     <section id="culinary" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--accent)_15%,transparent),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen">
-        {inView && (
-          <SceneErrorBoundary>
-            <Suspense fallback={null}>
-            <CulinaryScene />
-          </Suspense>
-          </SceneErrorBoundary>
-        )}
-      </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}

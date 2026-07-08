@@ -1,10 +1,7 @@
 import { motion } from "framer-motion";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { useInView } from "@/hooks/useInView";
-import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
+import { useEffect, useRef, useState } from "react";
 import { SplitText } from "@/components/motion/Kinetic";
-
-const EventsScene = lazy(() => import("@/components/scenes/EventsScene"));
+import jayaHero from "@/assets/jayandaru.jpg";
 
 const events = [
   { d: "22 AUG", t: "Nyadran Dawuhan", place: "Krembung", tag: "Ritual" },
@@ -41,19 +38,13 @@ function Countdown({ target }: { target: Date }) {
 
 export function Events() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref);
   // Fixed anchor date so SSR and client agree; refreshed on the client after mount.
   const nextEvent = new Date("2026-09-15T09:00:00+07:00");
   return (
-    <section id="events" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
-        {inView && (
-          <SceneErrorBoundary>
-            <Suspense fallback={null}>
-            <EventsScene />
-          </Suspense>
-          </SceneErrorBoundary>
-        )}
+    <section id="events" ref={ref} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1600 }}>
+      <div className="pointer-events-none absolute inset-0">
+        <img src={jayaHero} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/85 to-background" />
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div
