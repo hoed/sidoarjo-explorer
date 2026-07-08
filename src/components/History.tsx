@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { lazy, Suspense, useRef } from "react";
 import { useInView } from "@/hooks/useInView";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 import { SplitText } from "@/components/motion/Kinetic";
 
 const HistoryScene = lazy(() => import("@/components/scenes/HistoryScene"));
@@ -21,9 +22,11 @@ export function History() {
     <section id="history" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
         {inView && (
-          <Suspense fallback={null}>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
             <HistoryScene />
           </Suspense>
+          </SceneErrorBoundary>
         )}
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">

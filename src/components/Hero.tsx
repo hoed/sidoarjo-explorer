@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { HeroScene } from "./HeroScene";
+import { SceneErrorBoundary } from "./SceneErrorBoundary";
 import heroImg from "@/assets/hero-sidoarjo.jpg";
 
 export function Hero() {
@@ -26,7 +27,9 @@ export function Hero() {
 
       {/* 3D Canvas */}
       <motion.div style={{ opacity }} className="absolute inset-0">
-        <HeroScene />
+        <SceneErrorBoundary>
+          <HeroScene />
+        </SceneErrorBoundary>
       </motion.div>
 
       {/* Content */}

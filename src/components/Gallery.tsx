@@ -9,6 +9,7 @@ import mangrove from "@/assets/mangrove.jpg";
 import dance from "@/assets/culture-dance.jpg";
 import wayang from "@/assets/wayang.jpg";
 import { useInView } from "@/hooks/useInView";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 
 const GalleryScene = lazy(() => import("@/components/scenes/GalleryScene"));
 
@@ -30,9 +31,11 @@ export function Gallery() {
     <section id="gallery" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
         {inView && (
-          <Suspense fallback={null}>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
             <GalleryScene />
           </Suspense>
+          </SceneErrorBoundary>
         )}
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">

@@ -4,6 +4,7 @@ import lontong from "@/assets/lontong-kupang.jpg";
 import bandeng from "@/assets/bandeng.jpg";
 import otak from "@/assets/otak-otak.jpg";
 import { useInView } from "@/hooks/useInView";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 import { SplitText, ClipReveal } from "@/components/motion/Kinetic";
 
 const CulinaryScene = lazy(() => import("@/components/scenes/CulinaryScene"));
@@ -22,9 +23,11 @@ export function Culinary() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--accent)_15%,transparent),transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen">
         {inView && (
-          <Suspense fallback={null}>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
             <CulinaryScene />
           </Suspense>
+          </SceneErrorBoundary>
         )}
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">

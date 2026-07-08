@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Stars, Environment } from "@react-three/drei";
+import { Float, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
 function Particles({ count = 900 }: { count?: number }) {
@@ -173,7 +173,6 @@ export function HeroScene() {
       <directionalLight position={[3, 4, 5]} intensity={1.4} color="#FFD166" />
       <pointLight position={[-4, -2, -2]} intensity={1.2} color="#00D4FF" />
       <Suspense fallback={null}>
-        <Environment preset="night" />
         <TerrainOrb />
         <GoldRing />
         <Particles />

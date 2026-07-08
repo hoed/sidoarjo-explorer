@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 import { SplitText } from "@/components/motion/Kinetic";
 
 const EventsScene = lazy(() => import("@/components/scenes/EventsScene"));
@@ -47,9 +48,11 @@ export function Events() {
     <section id="events" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 opacity-50 mix-blend-screen">
         {inView && (
-          <Suspense fallback={null}>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
             <EventsScene />
           </Suspense>
+          </SceneErrorBoundary>
         )}
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">

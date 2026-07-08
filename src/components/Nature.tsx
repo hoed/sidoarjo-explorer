@@ -3,6 +3,7 @@ import { lazy, Suspense, useRef } from "react";
 import mangrove from "@/assets/mangrove.jpg";
 import delta from "@/assets/delta-fishing.jpg";
 import { useInView } from "@/hooks/useInView";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 import { SplitText, ClipReveal, BlurWords } from "@/components/motion/Kinetic";
 
 const NatureScene = lazy(() => import("@/components/scenes/NatureScene"));
@@ -24,9 +25,11 @@ export function Nature() {
 
       <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen">
         {inView && (
-          <Suspense fallback={null}>
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
             <NatureScene />
           </Suspense>
+          </SceneErrorBoundary>
         )}
       </div>
 
