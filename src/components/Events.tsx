@@ -77,8 +77,8 @@ export function Events() {
           {events.map((e, i) => (
             <motion.li
               key={e.t}
-              initial={{ opacity: 0, x: -30, rotateY: 20 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              initial={{ opacity: 0, x: 70 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.9, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               data-magnetic

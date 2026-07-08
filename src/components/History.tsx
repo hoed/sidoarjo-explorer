@@ -42,8 +42,8 @@ export function History() {
             {timeline.map((t, i) => (
               <motion.div
                 key={t.title}
-                initial={{ opacity: 0, y: 40, rotateY: i % 2 ? -20 : 20 }}
-                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+                initial={{ opacity: 0, x: i % 2 ? 90 : -90 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 className={`relative grid grid-cols-1 items-center gap-6 md:grid-cols-2 ${i % 2 ? "md:[direction:rtl]" : ""}`}

@@ -40,10 +40,10 @@ export function Gallery() {
           {imgs.map((im, i) => (
             <motion.figure
               key={i}
-              initial={{ opacity: 0, y: 40, rotateX: -20, rotateY: i % 2 ? 14 : -14 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0, rotateY: 0 }}
+              initial={{ opacity: 0, scale: 1.35 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 1, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.9, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className={`group relative overflow-hidden rounded-xl ${im.h}`}
             >
               <img src={im.src} alt={im.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-110" />

@@ -29,13 +29,15 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
   };
   const onLeave = () => { rx.set(0); ry.set(0); };
 
+  const flyFrom = index % 3 === 0 ? -1 : index % 3 === 1 ? 0 : 1; // left / center-up / right
+
   return (
     <div style={{ perspective: 1200 }}>
       <motion.div
-        initial={{ opacity: 0, y: 60, rotateX: -20 }}
-        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+        initial={{ opacity: 0, y: 90, x: flyFrom * 50, rotate: flyFrom * -8, scale: 0.75 }}
+        whileInView={{ opacity: 1, y: 0, x: 0, rotate: 0, scale: 1 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 1.1, delay: (index % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.8, delay: (index % 3) * 0.1, ease: [0.34, 1.56, 0.64, 1] }}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         data-magnetic

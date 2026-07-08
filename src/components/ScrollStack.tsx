@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { ScrollStackContext } from "@/lib/scroll-stack-context";
+import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 
 type Slide = { id: string; content: ReactNode };
 
@@ -152,7 +153,22 @@ export function ScrollStack({ slides, children }: { slides: Slide[]; children?: 
                 className="h-full w-full overflow-y-auto overflow-x-hidden"
                 aria-hidden={!isActive}
               >
-                {slide.content}
+                <SceneErrorBoundary
+                  fallback={
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-3 px-6 text-center">
+                      <p className="text-lg text-muted-foreground">This part of the journey hit a snag.</p>
+                      <button
+                        type="button"
+                        onClick={() => window.location.reload()}
+                        className="rounded-full glass px-6 py-2 text-xs uppercase tracking-widest hover:bg-white/10"
+                      >
+                        Reload
+                      </button>
+                    </div>
+                  }
+                >
+                  {slide.content}
+                </SceneErrorBoundary>
               </div>
             </motion.div>
           );

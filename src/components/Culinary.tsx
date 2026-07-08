@@ -36,10 +36,10 @@ export function Culinary() {
           {dishes.map((d, i) => (
             <motion.article
               key={d.name}
-              initial={{ opacity: 0, y: 60, rotateX: -24 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              initial={{ opacity: 0, scale: 0.5, rotate: i % 2 ? 25 : -25 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1.1, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.85, delay: i * 0.12, ease: [0.34, 1.56, 0.64, 1] }}
               className="group relative"
             >
               <ClipReveal from="up" duration={1.4} delay={i * 0.1} className="aspect-square rounded-full glass-strong">

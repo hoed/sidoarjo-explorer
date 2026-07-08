@@ -23,8 +23,8 @@ export function Nature() {
         className="relative mx-auto max-w-7xl px-6"
       >
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
-          <div className="md:col-span-5" style={{ perspective: 1200 }}>
-            <motion.p initial={{ opacity: 0, y: 30, rotateX: -22 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-accent">
+          <div className="md:col-span-5">
+            <motion.p initial={{ opacity: 0, x: -60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-accent">
               03 — Nature
             </motion.p>
             <h2 className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl">
@@ -43,10 +43,10 @@ export function Nature() {
               ].map(([n, d], i) => (
                 <motion.li
                   key={n}
-                  initial={{ opacity: 0, y: 24, rotateX: -20 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.7, delay: 0.15 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-baseline justify-between border-b border-white/10 pb-3"
                 >
                   <span className="text-base">{n}</span>

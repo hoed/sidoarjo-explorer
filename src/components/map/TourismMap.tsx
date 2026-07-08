@@ -59,6 +59,37 @@ function useIsMobile() {
   return mobile;
 }
 
+function InvalidateOnSettle() {
+  const map = useMap();
+  useEffect(() => {
+    const container = map.getContainer();
+    // Leaflet computes its internal pixel math from the container's
+    // bounding box at mount time. Since this map can mount while its
+    // slide is still a rotated/scaled "neighbor" in the 3D card stack
+    // (before it becomes the active, flat slide), that initial box can
+    // be skewed — leading to stale internal state and errors like
+    // "Cannot read properties of undefined (reading 'x')" from the
+    // marker-cluster plugin. Re-measuring whenever the container's real
+    // size changes (which fires once the transform settles to flat)
+    // forces Leaflet to recompute correctly.
+    const ro = new ResizeObserver(() => {
+      map.invalidateSize({ animate: false });
+    });
+    ro.observe(container);
+    // Also catch the case where size doesn't change but the transform
+    // does (e.g. rotateX only, no size delta) via a couple of delayed
+    // invalidations after mount.
+    const t1 = window.setTimeout(() => map.invalidateSize({ animate: false }), 400);
+    const t2 = window.setTimeout(() => map.invalidateSize({ animate: false }), 900);
+    return () => {
+      ro.disconnect();
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [map]);
+  return null;
+}
+
 function FlyController({ target, mobile }: { target: [number, number] | null; mobile: boolean }) {
   const map = useMap();
   const raf = useRef<number | null>(null);
@@ -313,6 +344,7 @@ export function TourismMap({
             updateInterval={mobile ? 400 : 200}
           />
           <FlyController target={target} mobile={mobile} />
+          <InvalidateOnSettle />
           <MarkerClusterGroup
             ref={clusterRef as any}
             chunkedLoading
