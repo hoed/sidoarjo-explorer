@@ -77,49 +77,57 @@ function Index() {
     {
       id: "heritage",
       content: (
-        <Chapter
-          eyebrow="Chapter I — Heritage"
-          title={
-            <>
-              Where the delta<br />
-              <span className="italic text-gradient-cyan">remembers.</span>
-            </>
-          }
-          body={
-            <>
-              A thousand years ago, the Airlangga kings raised Kahuripan on this soil.
-              Six centuries later, Majapahit laid the red bricks of Candi Pari. Every
-              stone still speaks — you only need to arrive.
-            </>
-          }
-        >
-          <Destinations />
-        </Chapter>
+        <>
+          <Chapter
+            eyebrow="Chapter I — Heritage"
+            title={
+              <>
+                Where the delta<br />
+                <span className="italic text-gradient-cyan">remembers.</span>
+              </>
+            }
+            body={
+              <>
+                A thousand years ago, the Airlangga kings raised Kahuripan on this soil.
+                Six centuries later, Majapahit laid the red bricks of Candi Pari. Every
+                stone still speaks — you only need to arrive.
+              </>
+            }
+          >
+            <Destinations />
+          </Chapter>
+          <History />
+        </>
       ),
     },
     {
       id: "nature",
       content: (
-        <Chapter
-          eyebrow="Chapter II — Nature"
-          title={
-            <>
-              A green<br />
-              <span className="italic text-gradient-cyan">seawall.</span>
-            </>
-          }
-          align="right"
-        >
-          <Nature />
-        </Chapter>
+        <>
+          <Chapter
+            eyebrow="Chapter II — Nature"
+            title={
+              <>
+                A green<br />
+                <span className="italic text-gradient-cyan">seawall.</span>
+              </>
+            }
+            align="right"
+          >
+            <Nature />
+          </Chapter>
+          <Culture />
+        </>
       ),
     },
-    { id: "culture", content: <Culture /> },
-    { id: "history", content: <History /> },
-    { id: "culinary", content: <Culinary /> },
     {
-      id: "food-festivals",
-      content: <FoodFestivalsChapter destinations={destinations} onFocusSlug={setFocus} />,
+      id: "culinary",
+      content: (
+        <>
+          <Culinary />
+          <FoodFestivalsChapter destinations={destinations} onFocusSlug={setFocus} />
+        </>
+      ),
     },
     {
       id: "map",
@@ -151,8 +159,15 @@ function Index() {
         />
       ),
     },
-    { id: "gallery", content: <Gallery /> },
-    { id: "events", content: <Events /> },
+    {
+      id: "gallery",
+      content: (
+        <>
+          <Gallery />
+          <Events />
+        </>
+      ),
+    },
     {
       id: "invitation",
       content: (

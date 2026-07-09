@@ -33,8 +33,15 @@ const stats = [
 export function Intro() {
   const sectionRef = useRef<HTMLElement>(null);
   return (
-    <section id="intro" ref={sectionRef} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
+    <section id="intro" ref={sectionRef} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_15%,transparent),transparent_60%)]" />
+      {/* Giant faint watermark — fills the empty space typographically since this page has no photo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-[family-name:var(--font-display)] text-[26vw] font-light italic leading-none text-white/[0.035] md:text-[18vw]"
+      >
+        Sidoarjo
+      </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 md:grid-cols-12">
         <div className="md:col-span-5">
           <motion.p initial={{ opacity: 0, scale: 0.7 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="text-[10px] uppercase tracking-[0.4em] text-primary">
@@ -50,6 +57,19 @@ export function Intro() {
             <SplitText text="Where the delta" as="span" className="block" />
             <SplitText text="meets the sky." as="span" className="block italic text-gradient-cyan" delay={0.15} />
           </motion.h2>
+          <motion.div
+            initial={{ scaleY: 0, opacity: 0 }}
+            whileInView={{ scaleY: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "top" }}
+            className="mt-10 flex items-start gap-4"
+          >
+            <span className="h-24 w-px shrink-0 bg-gradient-to-b from-primary via-accent to-transparent" />
+            <span className="font-[family-name:var(--font-display)] text-xl italic leading-snug text-muted-foreground">
+              &ldquo;Every delta has a heartbeat. Ours just happens to taste like kupang and smell like clove smoke.&rdquo;
+            </span>
+          </motion.div>
         </div>
         <div className="md:col-span-6 md:col-start-7 md:pt-10">
           <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
@@ -59,7 +79,7 @@ export function Intro() {
             <BlurWords text="We invite you to move slowly. To listen. To taste. To remember." delay={0.2} />
           </p>
 
-          <div className="mt-14 grid grid-cols-2 gap-8 md:gap-12" style={{ perspective: 1200 }}>
+          <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-12 md:gap-x-12">
             {stats.map((st, i) => (
               <motion.div
                 key={st.label}
@@ -67,8 +87,9 @@ export function Intro() {
                 whileInView={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
+                className="border-l-2 border-accent/40 pl-4"
               >
-                <div className="text-5xl font-light text-gradient-gold md:text-6xl">
+                <div className="font-[family-name:var(--font-display)] text-6xl font-light text-gradient-gold md:text-7xl">
                   <Counter to={st.v} suffix={st.s} />
                 </div>
                 <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">{st.label}</div>

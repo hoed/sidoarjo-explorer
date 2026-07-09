@@ -3,11 +3,10 @@ import { useScrollStack } from "@/lib/scroll-stack-context";
 
 const links = [
   { label: "Destinations", id: "heritage" },
-  { label: "Nature", id: "nature" },
-  { label: "Culture", id: "culture" },
+  { label: "Nature & Culture", id: "nature" },
   { label: "Culinary", id: "culinary" },
   { label: "Map", id: "map" },
-  { label: "Events", id: "events" },
+  { label: "Gallery", id: "gallery" },
 ];
 
 export function Nav() {

@@ -3,13 +3,12 @@ import { useScrollStack } from "@/lib/scroll-stack-context";
 
 const stops = [
   { id: "hero", label: "Dawn" },
+  { id: "intro", label: "Welcome" },
   { id: "heritage", label: "Heritage" },
-  { id: "nature", label: "Nature" },
-  { id: "culture", label: "Culture" },
-  { id: "history", label: "History" },
-  { id: "culinary", label: "Table" },
-  { id: "food-festivals", label: "Festivals" },
+  { id: "nature", label: "Nature & Culture" },
+  { id: "culinary", label: "Food & Festivals" },
   { id: "map", label: "Map" },
+  { id: "gallery", label: "Gallery & Events" },
   { id: "invitation", label: "Invitation" },
 ];
 
