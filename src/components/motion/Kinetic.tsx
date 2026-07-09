@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { useMemo, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 
 /**
  * Kinetic typography + image reveal primitives inspired by award-winning
@@ -174,6 +174,17 @@ export function ClipReveal({
   style,
 }: ClipRevealProps) {
   const reduced = useReducedMotion();
+  // Belt-and-suspenders: whileInView's IntersectionObserver can fail to
+  // fire reliably for content nested inside the ScrollStack's rotateX/
+  // scale-transformed slide ancestors (a slide can become the active,
+  // fully-on-screen slide without ever registering as "intersecting" in
+  // some browsers). Force the reveal open after a short delay regardless,
+  // so images can never get permanently stuck clipped to nothing.
+  const [forceShow, setForceShow] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setForceShow(true), 1200 + delay * 1000);
+    return () => window.clearTimeout(t);
+  }, [delay]);
 
   const clipInitial = reduced
     ? "inset(0% 0% 0% 0%)"
@@ -191,6 +202,7 @@ export function ClipReveal({
       style={style}
       initial="hidden"
       whileInView="show"
+      animate={forceShow ? "show" : undefined}
       viewport={{ once: true, amount: 0.25 }}
       variants={{
         hidden: { clipPath: clipInitial },
@@ -202,6 +214,10 @@ export function ClipReveal({
     >
       <motion.div
         className="h-full w-full"
+        initial="hidden"
+        animate={forceShow ? "show" : undefined}
+        whileInView={forceShow ? undefined : "show"}
+        viewport={{ once: true, amount: 0.25 }}
         variants={{
           hidden: { scale: reduced ? 1 : scale },
           show: { scale: 1, transition: { duration: duration + 0.2, ease: EASE, delay } },
