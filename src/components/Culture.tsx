@@ -9,7 +9,8 @@ export function Culture() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section id="culture" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(190,24,93,0.18),transparent_55%)]" />
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <div style={{ perspective: 1200 }} className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <motion.div
             initial={{ opacity: 0, y: 50, rotateX: -22 }}

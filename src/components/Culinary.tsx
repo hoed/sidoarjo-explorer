@@ -15,7 +15,7 @@ export function Culinary() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section id="culinary" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--accent)_15%,transparent),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(234,88,12,0.22),transparent_60%),radial-gradient(ellipse_at_top_left,rgba(220,38,38,0.14),transparent_55%)]" />
       <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}

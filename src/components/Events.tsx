@@ -43,8 +43,9 @@ export function Events() {
   return (
     <section id="events" ref={ref} className="relative overflow-hidden py-32 md:py-48" style={{ perspective: 1600 }}>
       <div className="pointer-events-none absolute inset-0">
-        <img src={jayaHero} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/85 to-background" />
+        <img src={jayaHero} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-25" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.16),transparent_60%)]" />
       </div>
       <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
         <motion.div

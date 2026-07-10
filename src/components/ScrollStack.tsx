@@ -5,32 +5,15 @@ import { SceneErrorBoundary } from "@/components/SceneErrorBoundary";
 
 type Slide = { id: string; content: ReactNode };
 
-type SlideStyle = "flip" | "slideLeft" | "slideRight" | "zoom";
-const SLIDE_STYLES: SlideStyle[] = ["flip", "slideLeft", "zoom", "slideRight"];
-
-function slideTarget(diff: number, style: SlideStyle) {
-  if (diff === 0) return { rotateX: 0, x: "0%", y: "0%", scale: 1, opacity: 1 };
-  switch (style) {
-    case "slideLeft":
-      // This slide enters from the right and exits to the left.
-      return diff > 0
-        ? { rotateX: 0, x: "100%", y: "0%", scale: 1, opacity: 0 }
-        : { rotateX: 0, x: "-100%", y: "0%", scale: 1, opacity: 0 };
-    case "slideRight":
-      // Mirror of slideLeft — enters from the left, exits to the right.
-      return diff > 0
-        ? { rotateX: 0, x: "-100%", y: "0%", scale: 1, opacity: 0 }
-        : { rotateX: 0, x: "100%", y: "0%", scale: 1, opacity: 0 };
-    case "zoom":
-      return diff > 0
-        ? { rotateX: 0, x: "0%", y: "0%", scale: 0.7, opacity: 0 }
-        : { rotateX: 0, x: "0%", y: "0%", scale: 1.25, opacity: 0 };
-    case "flip":
-    default:
-      return diff > 0
-        ? { rotateX: -38, x: "0%", y: "6%", scale: 0.92, opacity: 0 }
-        : { rotateX: 38, x: "0%", y: "-6%", scale: 0.92, opacity: 0 };
-  }
+// The whole-slide transition is intentionally subtle now — just a crossfade
+// with a small settle-in nudge. The actual "3D scrub" character (tilt, spin,
+// slide, zoom) lives on individual content pieces inside each section
+// instead of the whole page moving as one rigid block.
+function slideTarget(diff: number) {
+  if (diff === 0) return { x: "0%", y: "0%", scale: 1, opacity: 1 };
+  return diff > 0
+    ? { x: "0%", y: "2.5%", scale: 0.985, opacity: 0 }
+    : { x: "0%", y: "-2.5%", scale: 0.985, opacity: 0 };
 }
 
 const TRANSITION_MS = 750;
@@ -153,9 +136,7 @@ export function ScrollStack({ slides, children }: { slides: Slide[]; children?: 
           if (Math.abs(diff) > 1) return null; // keep DOM light — only render neighbors
 
           const isActive = diff === 0;
-          const style = SLIDE_STYLES[i % SLIDE_STYLES.length];
-          const target = slideTarget(diff, style);
-          const isFlip = style === "flip";
+          const target = slideTarget(diff);
 
           return (
             <motion.div
@@ -164,8 +145,6 @@ export function ScrollStack({ slides, children }: { slides: Slide[]; children?: 
               animate={target}
               transition={{ duration: TRANSITION_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                transformStyle: "preserve-3d",
-                transformOrigin: isFlip ? (diff > 0 ? "bottom center" : "top center") : "center",
                 zIndex: isActive ? 10 : 5,
                 pointerEvents: isActive ? "auto" : "none",
               }}

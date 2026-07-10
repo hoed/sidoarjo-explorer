@@ -31,6 +31,9 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
 
   const flyFrom = index % 3 === 0 ? -1 : index % 3 === 1 ? 0 : 1; // left / center-up / right
 
+  const maskVariants = ["rounded-[2.5rem_2.5rem_2.5rem_7rem]", "rounded-[7rem_2.5rem_2.5rem_2.5rem]", "rounded-[2.5rem_7rem_2.5rem_2.5rem]"];
+  const mask = maskVariants[index % maskVariants.length];
+
   return (
     <div style={{ perspective: 1200 }}>
       <motion.div
@@ -44,7 +47,7 @@ function TiltCard({ item, index }: { item: (typeof items)[number]; index: number
         style={{ transformStyle: "preserve-3d" }}
         className="group relative"
       >
-        <motion.div style={{ rotateX: tY, rotateY: tX, transformStyle: "preserve-3d" }} className="relative aspect-[4/5] overflow-hidden rounded-2xl glass">
+        <motion.div style={{ rotateX: tY, rotateY: tX, transformStyle: "preserve-3d" }} className={`relative aspect-[4/5] overflow-hidden glass ${mask}`}>
         <img src={item.img} alt={item.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 text-[10px] uppercase tracking-[0.28em]">
@@ -70,7 +73,8 @@ export function Destinations() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section id="destinations" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(217,119,6,0.22),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(190,68,44,0.18),transparent_55%)]" />
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <div style={{ perspective: 1200 }} className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <motion.div
             initial={{ opacity: 0, y: 50, rotateX: -22 }}

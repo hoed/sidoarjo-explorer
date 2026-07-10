@@ -20,6 +20,7 @@ export function FoodFestivalsChapter({
 
   return (
     <section id="food-festivals" className="relative py-32 md:py-48">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(202,138,4,0.18),transparent_55%)]" />
       <div className="mx-auto flex max-w-6xl flex-col items-start px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

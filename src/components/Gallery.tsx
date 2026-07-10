@@ -24,7 +24,8 @@ export function Gallery() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section id="gallery" ref={ref} className="relative py-32 md:py-48" style={{ perspective: 1600 }}>
-      <motion.div style={{ transformStyle: "preserve-3d" }} className="mx-auto max-w-7xl px-6">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(147,51,234,0.16),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(219,39,119,0.14),transparent_55%)]" />
+      <motion.div style={{ transformStyle: "preserve-3d" }} className="relative mx-auto max-w-7xl px-6">
         <motion.div
           style={{ perspective: 1200 }}
           initial={{ opacity: 0, y: 50, rotateX: -22 }}

@@ -16,6 +16,7 @@ export function Nature() {
       <motion.div style={{ scale }} className="pointer-events-none absolute inset-0">
         <img src={mangrove} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(5,150,105,0.22),transparent_55%)]" />
       </motion.div>
 
       <motion.div
