@@ -48,7 +48,7 @@ export function Nature() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.6 }}
                   transition={{ duration: 0.7, delay: 0.15 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex items-baseline justify-between border-b border-white/10 pb-3"
+                  className="flex items-baseline justify-between border-b border-foreground/10 pb-3"
                 >
                   <span className="text-base">{n}</span>
                   <span className="text-xs uppercase tracking-widest text-muted-foreground">{d}</span>

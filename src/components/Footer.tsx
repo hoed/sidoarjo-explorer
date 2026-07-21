@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/10 py-16">
+    <footer className="relative border-t border-foreground/10 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
@@ -40,7 +40,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="mx-auto mt-16 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-6 pt-8 text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row">
+      <div className="mx-auto mt-16 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-foreground/10 px-6 pt-8 text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row">
         <span>© {new Date().getFullYear()} BPPD Sidoarjo. All rights reserved.</span>
         <span>Crafted with love in East Java</span>
       </div>

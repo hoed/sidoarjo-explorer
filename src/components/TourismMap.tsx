@@ -32,7 +32,7 @@ export function TourismMap() {
                 onClick={() => setActive(f)}
                 data-magnetic
                 className={`rounded-full border px-4 py-2 text-[10px] uppercase tracking-[0.2em] transition ${
-                  active === f ? "border-primary bg-primary text-background" : "border-white/15 text-muted-foreground hover:border-white/40"
+                  active === f ? "border-primary bg-primary text-background" : "border-foreground/15 text-muted-foreground hover:border-foreground/40"
                 }`}
               >
                 {f}

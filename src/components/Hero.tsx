@@ -79,7 +79,7 @@ export function Hero() {
             Explore Now
             <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
           </a>
-          <a href="#video" data-magnetic className="inline-flex items-center gap-3 rounded-full glass px-8 py-4 text-sm uppercase tracking-[0.2em] hover:bg-white/10">
+          <a href="#video" data-magnetic className="inline-flex items-center gap-3 rounded-full glass px-8 py-4 text-sm uppercase tracking-[0.2em] hover:bg-foreground/10">
             <span className="grid h-6 w-6 place-items-center rounded-full border border-foreground/40">▶</span>
             Watch Film
           </a>

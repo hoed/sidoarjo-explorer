@@ -18,7 +18,7 @@ export function ChapterRail() {
   return (
     <aside className="pointer-events-none fixed left-6 top-1/2 z-30 hidden -translate-y-1/2 md:block">
       <div className="relative flex flex-col items-center gap-6">
-        <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/10" />
+        <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-foreground/10" />
         <motion.div
           initial={false}
           animate={{ scaleY: ids.length > 1 ? currentIndex / (ids.length - 1) : 0 }}
@@ -36,7 +36,7 @@ export function ChapterRail() {
             >
               <span
                 className={`block h-2 w-2 rounded-full transition ${
-                  active ? "bg-primary shadow-[0_0_12px_2px_hsl(var(--primary)/0.6)]" : "bg-white/30 group-hover:bg-primary group-hover:shadow-[0_0_12px_2px_hsl(var(--primary)/0.6)]"
+                  active ? "bg-primary shadow-[0_0_12px_2px_hsl(var(--primary)/0.6)]" : "bg-foreground/30 group-hover:bg-primary group-hover:shadow-[0_0_12px_2px_hsl(var(--primary)/0.6)]"
                 }`}
               />
               <span

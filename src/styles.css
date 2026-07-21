@@ -39,46 +39,46 @@
 
 :root {
   --radius: 0.75rem;
-  /* BPPD Sidoarjo palette */
-  --background: oklch(0.15 0.04 260);       /* #0D1B2A deep navy */
-  --foreground: oklch(0.97 0.01 250);       /* #F8FAFC */
-  --card: oklch(0.22 0.05 260);             /* #1B263B */
-  --card-foreground: oklch(0.97 0.01 250);
-  --popover: oklch(0.22 0.05 260);
-  --popover-foreground: oklch(0.97 0.01 250);
-  --primary: oklch(0.78 0.17 220);          /* #00D4FF cyan */
-  --primary-foreground: oklch(0.15 0.04 260);
-  --secondary: oklch(0.28 0.05 260);
-  --secondary-foreground: oklch(0.97 0.01 250);
-  --muted: oklch(0.25 0.04 260);
-  --muted-foreground: oklch(0.72 0.03 250);
-  --accent: oklch(0.84 0.15 85);            /* #FFD166 gold */
-  --accent-foreground: oklch(0.15 0.04 260);
-  --destructive: oklch(0.62 0.22 27);
-  --destructive-foreground: oklch(0.97 0.01 250);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.78 0.17 220);
+  /* BPPD Sidoarjo palette — light theme, flat colors for performance */
+  --background: oklch(0.98 0.005 90);       /* #FAFAF8 warm off-white */
+  --foreground: oklch(0.22 0.03 260);       /* #1E2430 near-black navy */
+  --card: oklch(1 0 0);                     /* #FFFFFF */
+  --card-foreground: oklch(0.22 0.03 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 260);
+  --primary: oklch(0.58 0.16 230);          /* #0E86D4 deep sky blue */
+  --primary-foreground: oklch(0.98 0.005 90);
+  --secondary: oklch(0.94 0.01 90);
+  --secondary-foreground: oklch(0.22 0.03 260);
+  --muted: oklch(0.95 0.008 90);
+  --muted-foreground: oklch(0.45 0.03 260);
+  --accent: oklch(0.68 0.16 55);            /* #D97706 warm amber */
+  --accent-foreground: oklch(0.98 0.005 90);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.98 0.005 90);
+  --border: oklch(0.22 0.03 260 / 10%);
+  --input: oklch(0.22 0.03 260 / 14%);
+  --ring: oklch(0.58 0.16 230);
 
-  --gold: oklch(0.84 0.15 85);
-  --cyan: oklch(0.78 0.17 220);
-  --ocean: oklch(0.55 0.15 230);
-  --sunset: oklch(0.72 0.19 45);
-  --forest: oklch(0.55 0.14 155);
+  --gold: oklch(0.68 0.16 55);
+  --cyan: oklch(0.58 0.16 230);
+  --ocean: oklch(0.5 0.15 230);
+  --sunset: oklch(0.65 0.19 45);
+  --forest: oklch(0.5 0.14 155);
 
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.28 0.09 240) 0%, oklch(0.15 0.04 260) 55%, oklch(0.08 0.03 260) 100%);
-  --gradient-cyan: linear-gradient(135deg, oklch(0.78 0.17 220), oklch(0.55 0.15 230));
-  --gradient-gold: linear-gradient(135deg, oklch(0.84 0.15 85), oklch(0.72 0.19 45));
-  --gradient-aurora: conic-gradient(from 180deg at 50% 50%, oklch(0.78 0.17 220 / 0.3), oklch(0.84 0.15 85 / 0.25), oklch(0.72 0.19 45 / 0.3), oklch(0.55 0.14 155 / 0.25), oklch(0.78 0.17 220 / 0.3));
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.9 0.03 230) 0%, oklch(0.96 0.01 90) 55%, oklch(0.98 0.005 90) 100%);
+  --gradient-cyan: linear-gradient(135deg, oklch(0.58 0.16 230), oklch(0.5 0.15 230));
+  --gradient-gold: linear-gradient(135deg, oklch(0.68 0.16 55), oklch(0.65 0.19 45));
+  --gradient-aurora: conic-gradient(from 180deg at 50% 50%, oklch(0.58 0.16 230 / 0.25), oklch(0.68 0.16 55 / 0.22), oklch(0.65 0.19 45 / 0.25), oklch(0.5 0.14 155 / 0.2), oklch(0.58 0.16 230 / 0.25));
 
-  --shadow-glow-cyan: 0 0 40px oklch(0.78 0.17 220 / 0.45), 0 0 80px oklch(0.78 0.17 220 / 0.25);
-  --shadow-glow-gold: 0 0 40px oklch(0.84 0.15 85 / 0.45);
-  --shadow-elegant: 0 30px 80px -20px oklch(0 0 0 / 0.6);
+  --shadow-glow-cyan: 0 0 40px oklch(0.58 0.16 230 / 0.3), 0 0 80px oklch(0.58 0.16 230 / 0.15);
+  --shadow-glow-gold: 0 0 40px oklch(0.68 0.16 55 / 0.3);
+  --shadow-elegant: 0 30px 80px -20px oklch(0.22 0.03 260 / 0.18);
 }
 
 .dark {
-  --background: oklch(0.15 0.04 260);
-  --foreground: oklch(0.97 0.01 250);
+  --background: oklch(0.98 0.005 90);
+  --foreground: oklch(0.22 0.03 260);
 }
 
 @layer base {
@@ -100,15 +100,14 @@
 }
 
 @utility glass {
-  background: color-mix(in oklab, var(--card) 40%, transparent);
-  backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid color-mix(in oklab, white 12%, transparent);
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 
 @utility glass-strong {
-  background: color-mix(in oklab, var(--card) 65%, transparent);
-  backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid color-mix(in oklab, white 15%, transparent);
+  background: color-mix(in oklab, var(--card) 96%, transparent);
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  box-shadow: 0 8px 30px -12px color-mix(in oklab, var(--foreground) 18%, transparent);
 }
 
 @utility text-gradient-cyan {
@@ -168,20 +167,18 @@
 @utility animate-reveal { animation: reveal-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @utility animate-marquee { animation: marquee 40s linear infinite; }
 
-/* Leaflet: dark floating controls over a light CARTO Positron basemap */
+/* Leaflet: flat light controls over the default OSM basemap */
 .leaflet-container { font-family: inherit; background: #e9e7e0; }
 .leaflet-control-attribution {
-  background: rgba(0,0,0,0.4) !important;
-  color: rgba(255,255,255,0.5) !important;
+  background: rgba(255,255,255,0.85) !important;
+  color: rgba(30,36,48,0.7) !important;
   font-size: 10px !important;
-  backdrop-filter: blur(6px);
 }
-.leaflet-control-attribution a { color: rgba(255,255,255,0.7) !important; }
+.leaflet-control-attribution a { color: rgba(30,36,48,0.9) !important; }
 .leaflet-control-zoom a {
-  background: rgba(15,20,35,0.8) !important;
-  color: #fff !important;
-  border-color: rgba(255,255,255,0.1) !important;
-  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.92) !important;
+  color: #1e2430 !important;
+  border-color: rgba(30,36,48,0.12) !important;
 }
 .sd-marker { background: transparent !important; border: none !important; }
 

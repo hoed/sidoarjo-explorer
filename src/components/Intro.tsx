@@ -38,7 +38,7 @@ export function Intro() {
       {/* Giant faint watermark — fills the empty space typographically since this page has no photo */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-[family-name:var(--font-display)] text-[26vw] font-light italic leading-none text-white/[0.035] md:text-[18vw]"
+        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-[family-name:var(--font-display)] text-[26vw] font-light italic leading-none text-foreground/[0.045] md:text-[18vw]"
       >
         Sidoarjo
       </div>

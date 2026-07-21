@@ -33,7 +33,7 @@ export function CTA() {
             Plan my Sidoarjo trip
             <span className="transition-transform group-hover:translate-x-1">→</span>
           </a>
-          <a href="#" data-magnetic className="rounded-full glass px-10 py-5 text-sm uppercase tracking-[0.25em] hover:bg-white/10">
+          <a href="#" data-magnetic className="rounded-full glass px-10 py-5 text-sm uppercase tracking-[0.25em] hover:bg-foreground/10">
             Talk to a local guide
           </a>
         </motion.div>

@@ -74,7 +74,7 @@ export function Events() {
           </motion.div>
         </div>
 
-        <ul style={{ perspective: 1400 }} className="divide-y divide-white/10 border-y border-white/10">
+        <ul style={{ perspective: 1400 }} className="divide-y divide-white/10 border-y border-foreground/10">
           {events.map((e, i) => (
             <motion.li
               key={e.t}

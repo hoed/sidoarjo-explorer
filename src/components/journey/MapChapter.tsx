@@ -28,12 +28,12 @@ export function MapChapter({
 
   if (!mounted) {
     return (
-      <div className="h-[80vh] w-full animate-pulse rounded-3xl border border-white/10 bg-white/5" />
+      <div className="h-[80vh] w-full animate-pulse rounded-3xl border border-foreground/10 bg-foreground/5" />
     );
   }
   return (
     <Suspense
-      fallback={<div className="h-[80vh] w-full rounded-3xl border border-white/10 bg-white/5" />}
+      fallback={<div className="h-[80vh] w-full rounded-3xl border border-foreground/10 bg-foreground/5" />}
     >
       <TourismMap
         destinations={destinations}

@@ -48,7 +48,7 @@ export function FoodFestivalsChapter({
               <button
                 type="button"
                 onClick={() => onFocusSlug(d.slug)}
-                className="glass-strong flex w-full items-start gap-4 rounded-2xl border border-white/10 p-5 text-left transition hover:border-primary/40"
+                className="glass-strong flex w-full items-start gap-4 rounded-2xl border border-foreground/10 p-5 text-left transition hover:border-primary/40"
               >
                 <span className="text-[10px] uppercase tracking-[0.3em] text-primary">
                   {String(i + 1).padStart(2, "0")}

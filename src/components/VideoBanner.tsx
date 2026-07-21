@@ -23,7 +23,7 @@ export function VideoBanner() {
             <SplitText text="“Every scroll is" as="span" className="block" />
             <SplitText text="an invitation.”" as="span" className="block italic text-gradient-gold" delay={0.2} />
           </h2>
-          <button data-magnetic className="mt-10 inline-flex items-center gap-4 rounded-full glass-strong px-8 py-4 text-sm uppercase tracking-[0.2em] transition-colors hover:bg-white/10">
+          <button data-magnetic className="mt-10 inline-flex items-center gap-4 rounded-full glass-strong px-8 py-4 text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/10">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-background">▶</span>
             Play the Sidoarjo Film
           </button>

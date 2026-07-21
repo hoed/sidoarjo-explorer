@@ -124,9 +124,9 @@ export function TourGuide({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 260, damping: 26 }}
-            className="fixed bottom-24 right-6 z-[600] flex h-[70vh] w-[min(420px,calc(100%-3rem))] flex-col overflow-hidden rounded-3xl border border-white/10 glass-strong"
+            className="fixed bottom-24 right-6 z-[600] flex h-[70vh] w-[min(420px,calc(100%-3rem))] flex-col overflow-hidden rounded-3xl border border-foreground/10 glass-strong"
           >
-            <div className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
+            <div className="flex items-center gap-3 border-b border-foreground/10 px-5 py-4">
               <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-primary to-accent">
                 <MessageCircle className="h-4 w-4 text-background" />
               </div>
@@ -158,7 +158,7 @@ export function TourGuide({
                 e.preventDefault();
                 void send();
               }}
-              className="flex items-center gap-2 border-t border-white/10 px-4 py-3"
+              className="flex items-center gap-2 border-t border-foreground/10 px-4 py-3"
             >
               <input
                 autoFocus

@@ -320,7 +320,7 @@ export function TourismMap({
 
   return (
     <div className="relative w-full">
-      <div className="relative h-[80vh] w-full overflow-hidden rounded-3xl border border-white/10">
+      <div className="relative h-[80vh] w-full overflow-hidden rounded-3xl border border-foreground/10">
         <MapContainer
           center={SIDOARJO_CENTER}
           zoom={SIDOARJO_ZOOM}
@@ -362,7 +362,7 @@ export function TourismMap({
 
         {/* Search panel */}
         <div ref={searchRef} className="absolute left-4 top-4 z-[500] w-[min(360px,calc(100%-2rem))]">
-          <div className="glass-strong flex items-center gap-2 rounded-2xl border border-white/10 px-4 py-3">
+          <div className="glass-strong flex items-center gap-2 rounded-2xl border border-foreground/10 px-4 py-3">
             <Search className="h-4 w-4 text-primary" />
             <input
               value={query}
@@ -386,7 +386,7 @@ export function TourismMap({
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
-                className="glass-strong mt-2 overflow-hidden rounded-2xl border border-white/10"
+                className="glass-strong mt-2 overflow-hidden rounded-2xl border border-foreground/10"
               >
                 {suggestions.map((d) => (
                   <button
@@ -397,7 +397,7 @@ export function TourismMap({
                       setQuery(d.name);
                       setShowSuggest(false);
                     }}
-                    className="flex w-full items-center gap-3 border-b border-white/5 px-4 py-3 text-left text-sm last:border-b-0 hover:bg-white/5"
+                    className="flex w-full items-center gap-3 border-b border-foreground/5 px-4 py-3 text-left text-sm last:border-b-0 hover:bg-foreground/5"
                   >
                     <span
                       className="h-2 w-2 rounded-full"
@@ -416,7 +416,7 @@ export function TourismMap({
           {/* Category + mood filter chips — wrapped in a solid glass card so the
               light-toned text stays legible over any basemap color, instead of
               floating bare on top of the map tiles. */}
-          <div className="glass-strong mt-3 rounded-2xl border border-white/10 p-3">
+          <div className="glass-strong mt-3 rounded-2xl border border-foreground/10 p-3">
             <div className="flex flex-wrap gap-1.5">
               {categories.map((c) => {
                 const on = activeCats.has(c.slug);
@@ -425,7 +425,7 @@ export function TourismMap({
                     key={c.slug}
                     onClick={() => toggleCat(c.slug)}
                     className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
-                      on ? "border-transparent text-background" : "border-white/15 text-muted-foreground hover:border-white/40"
+                      on ? "border-transparent text-background" : "border-foreground/15 text-muted-foreground hover:border-foreground/40"
                     }`}
                     style={on ? { background: c.color } : undefined}
                   >
@@ -444,7 +444,7 @@ export function TourismMap({
                     className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition ${
                       on
                         ? "border-primary bg-primary/20 text-primary"
-                        : "border-white/10 text-muted-foreground hover:border-white/30"
+                        : "border-foreground/10 text-muted-foreground hover:border-foreground/30"
                     }`}
                   >
                     {f.label}
@@ -460,7 +460,7 @@ export function TourismMap({
           className="absolute bottom-4 right-4 z-[500] w-[min(240px,calc(100%-2rem))]"
           onMouseLeave={() => setHoverCat(null)}
         >
-          <div className="glass-strong rounded-2xl border border-white/10 p-3">
+          <div className="glass-strong rounded-2xl border border-foreground/10 p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-[0.3em] text-primary">Legend</span>
               <span className="text-[10px] text-muted-foreground">{filtered.length} pts</span>
@@ -478,7 +478,7 @@ export function TourismMap({
                         setHoverCat((h) => (h === c.slug ? null : c.slug));
                       }}
                       className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition ${
-                        active ? "bg-white/10" : "hover:bg-white/5"
+                        active ? "bg-foreground/10" : "hover:bg-foreground/5"
                       }`}
                     >
                       <span
@@ -511,7 +511,7 @@ export function TourismMap({
               exit={{ opacity: 0, x: 40 }}
               className="absolute right-4 top-4 z-[500] w-[min(340px,calc(100%-2rem))]"
             >
-              <div className="glass-strong overflow-hidden rounded-2xl border border-white/10">
+              <div className="glass-strong overflow-hidden rounded-2xl border border-foreground/10">
                 {selectedDest.hero_image && (
                   <div className="relative h-40 overflow-hidden">
                     <img src={selectedDest.hero_image} alt={selectedDest.name} className="h-full w-full object-cover" loading="lazy" />
@@ -566,7 +566,7 @@ export function TourismMap({
                         href={selectedDest.google_maps_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="rounded-full border border-white/15 px-4 py-2 text-[11px] uppercase tracking-widest hover:border-white/40"
+                        className="rounded-full border border-foreground/15 px-4 py-2 text-[11px] uppercase tracking-widest hover:border-foreground/40"
                       >
                         Navigate
                       </a>
@@ -580,7 +580,7 @@ export function TourismMap({
 
         {/* Itinerary drawer */}
         <div className="absolute bottom-4 left-4 z-[500] w-[min(360px,calc(100%-2rem))]">
-          <div className="glass-strong rounded-2xl border border-white/10 p-4">
+          <div className="glass-strong rounded-2xl border border-foreground/10 p-4">
             <div className="flex items-baseline justify-between">
               <h4 className="text-xs uppercase tracking-[0.3em] text-primary">Your Journey</h4>
               <span className="text-[10px] text-muted-foreground">
@@ -594,7 +594,7 @@ export function TourismMap({
             ) : (
               <ol className="mt-3 space-y-1.5">
                 {itineraryData.map((d, i) => (
-                  <li key={d.slug} className="flex items-center gap-2 rounded-lg bg-white/5 px-2 py-1.5 text-xs">
+                  <li key={d.slug} className="flex items-center gap-2 rounded-lg bg-foreground/5 px-2 py-1.5 text-xs">
                     <span className="w-4 text-primary">{i + 1}</span>
                     <button
                       onClick={() => {
@@ -646,7 +646,7 @@ export function TourismMap({
                     }
                     setItinerary(picks);
                   }}
-                  className="flex-1 rounded-full border border-white/15 px-3 py-1.5 text-[10px] uppercase tracking-widest hover:border-primary hover:text-primary"
+                  className="flex-1 rounded-full border border-foreground/15 px-3 py-1.5 text-[10px] uppercase tracking-widest hover:border-primary hover:text-primary"
                 >
                   {days}-day
                 </button>
@@ -654,7 +654,7 @@ export function TourismMap({
               {itinerary.length > 0 && (
                 <button
                   onClick={() => setItinerary([])}
-                  className="rounded-full border border-white/10 px-3 py-1.5 text-[10px] uppercase tracking-widest text-muted-foreground hover:border-destructive hover:text-destructive"
+                  className="rounded-full border border-foreground/10 px-3 py-1.5 text-[10px] uppercase tracking-widest text-muted-foreground hover:border-destructive hover:text-destructive"
                 >
                   <Plus className="h-3 w-3 rotate-45" />
                 </button>

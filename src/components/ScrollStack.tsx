@@ -164,7 +164,7 @@ export function ScrollStack({ slides, children }: { slides: Slide[]; children?: 
                       <button
                         type="button"
                         onClick={() => window.location.reload()}
-                        className="rounded-full glass px-6 py-2 text-xs uppercase tracking-widest hover:bg-white/10"
+                        className="rounded-full glass px-6 py-2 text-xs uppercase tracking-widest hover:bg-foreground/10"
                       >
                         Reload
                       </button>
